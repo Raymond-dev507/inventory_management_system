@@ -1,0 +1,550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Sale Receipt</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .receipt-container {
+            max-width: 850px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .receipt-card {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.08);
+            overflow: hidden;
+        }
+
+        .business-header {
+            text-align: center;
+            padding: 30px 30px 20px;
+            border-bottom: 2px dashed #dee2e6;
+        }
+
+        .business-name {
+            margin: 0 0 10px;
+            font-weight: 800;
+            font-size: 24px;
+            letter-spacing: 0.02em;
+            color: #212529;
+        }
+
+        .business-details {
+            display: flex;
+            flex-direction: column;
+            gap: 3px;
+        }
+
+        .business-line {
+            font-size: 13px;
+            line-height: 1.6;
+            color: #6c757d;
+        }
+
+        .business-line + .business-line {
+            margin-top: 2px;
+        }
+
+        .receipt-header {
+            text-align: center;
+            padding: 35px 20px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .success-icon {
+            width: 65px;
+            height: 65px;
+            margin: 0 auto 15px;
+            border-radius: 50%;
+            background: #d1e7dd;
+            color: #198754;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+        }
+
+        .receipt-header h2 {
+            margin: 0;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .receipt-header p {
+            margin: 8px 0 0;
+            color: #6c757d;
+        }
+
+        .receipt-info {
+            padding: 25px 30px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .info-label {
+            font-size: 13px;
+            color: #6c757d;
+            margin-bottom: 4px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .items-section {
+            padding: 25px 30px;
+        }
+
+        .items-section h5 {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .receipt-table th {
+            background: #f8f9fa;
+            font-size: 14px;
+            color: #495057;
+        }
+
+        .receipt-table th,
+        .receipt-table td {
+            padding: 14px;
+            vertical-align: middle;
+        }
+
+        .total-section {
+            padding: 20px 30px;
+            background: #f8f9fa;
+            border-top: 1px solid #eee;
+        }
+
+        .grand-total {
+            font-size: 28px;
+            font-weight: 800;
+            color: #198754;
+        }
+
+        .payment-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            background: #e9f2ff;
+            color: #0d6efd;
+            font-weight: 600;
+        }
+
+        .receipt-footer-note {
+            padding: 18px 30px;
+            text-align: center;
+            color: #6c757d;
+            font-size: 14px;
+            font-style: italic;
+            border-top: 1px dashed #ddd;
+        }
+
+        .receipt-actions {
+            padding: 25px 30px;
+            display: flex;
+            gap: 10px;
+            justify-content: flex-end;
+        }
+
+        .action-btn {
+            min-height: 45px;
+            border-radius: 9px;
+            font-weight: 600;
+        }
+
+        @media print {
+
+            body {
+                background: white;
+            }
+
+            .receipt-container {
+                margin: 0;
+                max-width: 100%;
+            }
+
+            .receipt-card {
+                box-shadow: none;
+            }
+
+            .receipt-actions {
+                display: none;
+            }
+        }
+
+        @media (max-width: 576px) {
+
+            .receipt-container {
+                margin: 20px auto;
+                padding: 0 10px;
+            }
+
+            .receipt-info,
+            .items-section,
+            .total-section,
+            .receipt-actions {
+                padding-left: 15px;
+                padding-right: 15px;
+            }
+
+            .receipt-table {
+                min-width: 600px;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            .grand-total {
+                font-size: 23px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="receipt-container">
+
+    <div class="receipt-card">
+
+        <!-- ========================= -->
+        <!-- BUSINESS INFO -->
+        <!-- ========================= -->
+
+        <div class="business-header">
+
+            <h3 class="business-name">
+                {{ settings.business_name }}
+            </h3>
+
+            <div class="business-details">
+
+                {% if settings.address %}
+                    <div class="business-line">
+                        {{ settings.address }}
+                    </div>
+                {% endif %}
+
+                {% if settings.phone or settings.email %}
+                    <div class="business-line">
+
+                        {% if settings.phone %}{{ settings.phone }}{% endif %}
+
+                        {% if settings.phone and settings.email %}
+                            &nbsp;&middot;&nbsp;
+                        {% endif %}
+
+                        {% if settings.email %}{{ settings.email }}{% endif %}
+
+                    </div>
+                {% endif %}
+
+                {% if settings.tax_number %}
+                    <div class="business-line">
+                        Tax / Reg. No: {{ settings.tax_number }}
+                    </div>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- SUCCESS HEADER -->
+        <!-- ========================= -->
+
+        <div class="receipt-header">
+
+            <div class="success-icon">
+                <i class="bi bi-check-lg"></i>
+            </div>
+
+            <h2>Sale Completed</h2>
+
+            <p>
+                The transaction has been successfully recorded.
+            </p>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- SALE INFORMATION -->
+        <!-- ========================= -->
+
+        <div class="receipt-info">
+
+            <div class="row g-4">
+
+                <div class="col-md-4">
+
+                    <div class="info-label">
+                        Sale Number
+                    </div>
+
+                    <div class="info-value">
+                        #{{ sale.id }}
+                    </div>
+
+                </div>
+
+
+                <!-- Customer: controlled by receipt_show_customer -->
+                {% if settings.receipt_show_customer %}
+
+                    <div class="col-md-4">
+
+                        <div class="info-label">
+                            Customer
+                        </div>
+
+                        <div class="info-value">
+
+                            {% if sale.customer_name %}
+                                {{ sale.customer_name }}
+                            {% else %}
+                                Walk-in Customer
+                            {% endif %}
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <div class="col-md-4">
+
+                    <div class="info-label">
+                        Date
+                    </div>
+
+                    <div class="info-value">
+                        {{ sale.date|date:datetime_format_str }}
+                    </div>
+
+                </div>
+
+
+                <!-- Processed By: controlled by receipt_show_cashier -->
+                {% if settings.receipt_show_cashier %}
+
+                    <div class="col-md-6">
+
+                        <div class="info-label">
+                            Processed By
+                        </div>
+
+                        <div class="info-value">
+                            {{ sale.processed_by.username }}
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+
+                <!-- Payment Method: controlled by receipt_show_payment_method -->
+                {% if settings.receipt_show_payment_method %}
+
+                    <div class="col-md-6">
+
+                        <div class="info-label">
+                            Payment Method
+                        </div>
+
+                        <div class="info-value">
+
+                            <span class="payment-badge">
+                                {{ sale.get_payment_method_display }}
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- PRODUCTS -->
+        <!-- ========================= -->
+
+        <div class="items-section">
+
+            <h5>
+                <i class="bi bi-cart3 me-2"></i>
+                Items Purchased
+            </h5>
+
+
+            <div class="table-wrapper">
+
+                <table class="table receipt-table mb-0">
+
+                    <thead>
+
+                        <tr>
+                            <th>Product</th>
+
+                            <!-- SKU column: controlled by receipt_show_sku -->
+                            {% if settings.receipt_show_sku %}
+                                <th>SKU</th>
+                            {% endif %}
+
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Subtotal</th>
+                        </tr>
+
+                    </thead>
+
+
+                    <tbody>
+
+                        {% for item in sale.items.all %}
+
+                            <tr>
+
+                                <td>
+                                    <strong>
+                                        {{ item.product.name }}
+                                    </strong>
+                                </td>
+
+                                {% if settings.receipt_show_sku %}
+                                    <td>
+                                        {{ item.product.sku }}
+                                    </td>
+                                {% endif %}
+
+                                <td>
+                                    {{ item.quantity }}
+                                </td>
+
+                                <td>
+                                    {{ currency_symbol }}{{ item.unit_price }}
+                                </td>
+
+                                <td>
+                                    <strong>
+                                        {{ currency_symbol }}{{ item.subtotal }}
+                                    </strong>
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- TOTAL -->
+        <!-- ========================= -->
+
+        <div class="total-section">
+
+            <div class="d-flex justify-content-between align-items-center">
+
+                <div>
+
+                    <div class="text-muted">
+                        Grand Total
+                    </div>
+
+                </div>
+
+                <div class="grand-total">
+                    {{ currency_symbol }}{{ sale.total_amount }}
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <!-- ========================= -->
+        <!-- RECEIPT FOOTER -->
+        <!-- ========================= -->
+
+        {% if settings.receipt_footer %}
+
+            <div class="receipt-footer-note">
+                {{ settings.receipt_footer }}
+            </div>
+
+        {% endif %}
+
+
+        <!-- ========================= -->
+        <!-- ACTIONS -->
+        <!-- ========================= -->
+
+        <div class="receipt-actions">
+
+            <button
+                type="button"
+                onclick="window.print()"
+                class="btn btn-outline-secondary action-btn"
+            >
+                <i class="bi bi-printer me-2"></i>
+                Print Receipt
+            </button>
+
+
+            <a
+                href="{% url 'create_sale' %}"
+                class="btn btn-primary action-btn"
+            >
+                <i class="bi bi-plus-circle me-2"></i>
+                New Sale
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+</body>
+</html>

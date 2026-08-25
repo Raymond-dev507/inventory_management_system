@@ -1,0 +1,358 @@
+{% load static %}
+
+<!-- ===================================================== -->
+<!-- HEADER -->
+<!-- ===================================================== -->
+
+<header class="site-header">
+
+    <nav class="navbar">
+
+        <div class="container-fluid">
+
+
+            <!-- Left Side -->
+            <div class="header-left">
+
+                <button
+                    type="button"
+                    id="menu-btn"
+                    class="menu-button"
+                    aria-label="Toggle sidebar"
+                >
+                    <i class="bi bi-list"></i>
+                </button>
+
+
+                <span class="site-title">
+                    Inventory Management System
+                </span>
+
+            </div>
+
+
+            <!-- Global Search -->
+            <div class="global-search">
+
+                <form
+                    method="GET"
+                    action="{% url 'global_search' %}"
+                >
+
+                    <div class="search-box">
+
+                        <i class="bi bi-search search-icon"></i>
+
+                        <input
+                            type="search"
+                            name="q"
+                            placeholder="Search products, sales, stock..."
+                            value="{{ request.GET.q }}"
+                            autocomplete="off"
+                        >
+
+                        <button
+                            type="submit"
+                            class="search-button"
+                        >
+                            <i class="bi bi-arrow-right"></i>
+                        </button>
+
+                    </div>
+
+                </form>
+
+            </div>
+
+
+            <!-- Right Side -->
+            <div class="header-right">
+
+
+                <!-- Notifications -->
+                <div class="dropdown notif-menu">
+
+                    <button
+                        type="button"
+                        class="notif-button"
+                        id="notif-button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="bi bi-bell"></i>
+
+                        {% if notif_count %}
+                            <span class="notif-badge">
+                                {{ notif_count }}
+                            </span>
+                        {% endif %}
+                    </button>
+
+
+                    <ul
+                        class="dropdown-menu dropdown-menu-end notif-dropdown"
+                        aria-labelledby="notif-button"
+                    >
+
+                        <li class="notif-dropdown-title">
+                            Notifications
+                        </li>
+
+
+                        {% if not notif_count %}
+
+                            <li class="notif-empty">
+
+                                <i class="bi bi-check-circle"></i>
+
+                                <span>
+                                    All stock levels look good
+                                </span>
+
+                            </li>
+
+                        {% else %}
+
+
+                            <!-- Out of stock -->
+                            {% for product in notif_out_of_stock %}
+
+                                <li>
+
+                                    <a
+                                        class="notif-item notif-item-danger"
+                                        href="{% url 'stock'%}"
+                                    >
+
+                                        <i class="bi bi-exclamation-triangle-fill"></i>
+
+                                        <div>
+
+                                            <strong>
+                                                {{ product.name }}
+                                            </strong>
+
+                                            <small>
+                                                Out of stock
+                                            </small>
+
+                                        </div>
+
+                                    </a>
+
+                                </li>
+
+                            {% endfor %}
+
+
+                            <!-- Low stock -->
+                            {% for product in notif_low_stock %}
+
+                                <li>
+
+                                    <a
+                                        class="notif-item notif-item-warning"
+                                        href="{% url 'stock'%}"
+                                    >
+
+                                        <i class="bi bi-box-seam"></i>
+
+                                        <div>
+
+                                            <strong>
+                                                {{ product.name }}
+                                            </strong>
+
+                                            <small>
+                                                {{ product.quantity }} unit(s) left
+                                            </small>
+
+                                        </div>
+
+                                    </a>
+
+                                </li>
+
+                            {% endfor %}
+
+
+                        {% endif %}
+
+
+                        <li>
+
+                            <a
+                                href="{% url 'all_product' %}"
+                                class="notif-view-all"
+                            >
+                                View all products
+                            </a>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- Theme -->
+                <div class="dropdown theme-menu">
+
+                    <button
+                        type="button"
+                        class="theme-button"
+                        id="theme-button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+                        <i class="bi bi-sun-fill"></i>
+                    </button>
+
+
+                    <ul
+                        class="dropdown-menu dropdown-menu-end"
+                        aria-labelledby="theme-button"
+                    >
+
+                        <li>
+
+                            <button
+                                type="button"
+                                class="dropdown-item"
+                                data-theme="light"
+                            >
+                                <i class="bi bi-sun-fill me-2"></i>
+                                Light
+                            </button>
+
+                        </li>
+
+
+                        <li>
+
+                            <button
+                                type="button"
+                                class="dropdown-item"
+                                data-theme="dark"
+                            >
+                                <i class="bi bi-moon-fill me-2"></i>
+                                Dark
+                            </button>
+
+                        </li>
+
+
+                        <li>
+
+                            <button
+                                type="button"
+                                class="dropdown-item"
+                                data-theme="auto"
+                            >
+                                <i class="bi bi-circle-half me-2"></i>
+                                Auto
+                            </button>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- User -->
+                <div class="dropdown user-menu">
+
+                    <button
+                        type="button"
+                        class="user-button"
+                        data-bs-toggle="dropdown"
+                        aria-expanded="false"
+                    >
+
+                        <img
+                            src="{% static 'images/ray.png' %}"
+                            alt="Admin"
+                            class="user-image"
+                        >
+
+                        <span class="d-none d-md-inline">
+                            {{ request.user.username }}
+                        </span>
+
+                        <i class="bi bi-chevron-down ms-2"></i>
+
+                    </button>
+
+
+                    <ul class="dropdown-menu dropdown-menu-end user-dropdown">
+
+
+                        <!-- User Profile -->
+                        <li class="user-profile">
+
+                            <img
+                                src="{% static 'images/ray.png' %}"
+                                alt="Admin"
+                                class="profile-image"
+                            >
+
+                            <div>
+
+                                <strong>
+                                    {{ request.user.username }}
+                                </strong>
+
+                                <small>
+                                    Inventory Manager
+                                </small>
+
+                            </div>
+
+                        </li>
+
+
+                        <!-- User Actions -->
+                        <li>
+
+                            <div class="user-actions">
+
+                                <a
+                                    href="#"
+                                    class="btn btn-outline-secondary"
+                                >
+                                    Profile
+                                </a>
+
+
+                                <form
+                                    method="POST"
+                                    action="{% url 'logout' %}"
+                                >
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-outline-danger"
+                                    >
+                                        Logout
+                                    </button>
+
+                                </form>
+
+                            </div>
+
+                        </li>
+
+                    </ul>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </nav>
+
+</header>

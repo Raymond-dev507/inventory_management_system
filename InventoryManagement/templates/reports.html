@@ -1,0 +1,1630 @@
+﻿<!doctype html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Reports</title>
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+    <!-- Bootstrap -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    >
+
+    <!-- Your existing CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+
+    <style>
+        /* ==============================
+           REPORTS PAGE
+        ============================== */
+
+        .report-card {
+            border: none;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .report-card:hover {
+            transform: translateY(-3px);
+        }
+
+        .report-icon {
+            width: 55px;
+            height: 55px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 26px;
+            flex-shrink: 0;
+        }
+
+        .report-number {
+            font-size: 30px;
+            font-weight: 700;
+            margin: 0;
+        }
+
+        .report-label {
+            margin: 4px 0 0;
+            opacity: 0.8;
+        }
+
+        .report-section {
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .report-section .card-header {
+            padding: 18px 22px;
+            font-weight: 600;
+        }
+
+        .report-section .card-body {
+            padding: 22px;
+        }
+
+        .report-title {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .report-subtitle {
+            opacity: 0.7;
+            margin-bottom: 0;
+        }
+
+        .stat-revenue {
+            border-left: 4px solid #198754;
+        }
+
+        .stat-profit {
+            border-left: 4px solid #0d6efd;
+        }
+
+        .stat-units {
+            border-left: 4px solid #ffc107;
+        }
+
+        .stat-products {
+            border-left: 4px solid #6f42c1;
+        }
+
+        .empty-report {
+            text-align: center;
+            padding: 45px 20px;
+            opacity: 0.7;
+        }
+
+        .empty-report i {
+            font-size: 45px;
+            margin-bottom: 12px;
+        }
+        .report-period-filter {
+    border-radius: 12px;
+}
+
+@media (max-width: 767.98px) {
+
+    .btn-group {
+        width: 100%;
+    }
+
+    .btn-group .btn {
+        flex: 1 1 auto;
+        font-size: 13px;
+        padding: 9px 8px;
+    }
+
+}
+
+@media (max-width: 575.98px) {
+
+    .btn-group {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        width: 100%;
+    }
+
+    .btn-group .btn {
+        border-radius: 0 !important;
+    }
+
+    .btn-group .btn:first-child {
+        border-top-left-radius: 6px !important;
+    }
+
+    .btn-group .btn:last-child {
+        border-bottom-right-radius: 6px !important;
+    }
+
+}
+
+
+/* =========================
+   TABLET
+   ========================= */
+
+@media (max-width: 991.98px) {
+
+    /* Page spacing */
+    .app-content {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    /* Report heading */
+    .app-content h2 {
+        font-size: 1.5rem;
+    }
+
+    /* Stat cards */
+    .report-card {
+        margin-bottom: 0;
+    }
+
+    .report-number {
+        font-size: 26px;
+    }
+
+    .report-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 23px;
+    }
+
+    /* Report sections */
+    .report-section .card-header {
+        padding: 16px 18px;
+    }
+
+    .report-section .card-body {
+        padding: 18px;
+    }
+
+    /* Search */
+    .global-search {
+        max-width: 320px;
+    }
+
+}
+
+
+/* =========================
+   MOBILE
+   ========================= */
+
+@media (max-width: 767.98px) {
+
+    /* Main content */
+    .app-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    /* Page header */
+    .app-content-header {
+        padding: 15px 10px;
+    }
+
+    .app-content-header h1 {
+        font-size: 1.4rem !important;
+    }
+
+    /* Breadcrumb */
+    .breadcrumb {
+        float: none !important;
+        margin-top: 8px;
+        margin-bottom: 0;
+        font-size: 13px;
+    }
+
+
+    /* =================================
+       REPORT INTRO
+       ================================= */
+
+    .app-content h2 {
+        font-size: 1.35rem;
+    }
+
+    .app-content > .container-fluid > .mb-4 p {
+        font-size: 14px;
+    }
+
+
+    /* =================================
+       STAT CARDS
+       ================================= */
+
+    .report-card {
+        border-radius: 10px;
+    }
+
+    .report-card .card-body {
+        padding: 16px;
+    }
+
+    .report-number {
+        font-size: 24px;
+    }
+
+    .report-label {
+        font-size: 13px;
+    }
+
+    .report-icon {
+        width: 46px;
+        height: 46px;
+        font-size: 21px;
+        border-radius: 10px;
+    }
+
+
+    /* =================================
+       REPORT SECTIONS
+       ================================= */
+
+    .report-section {
+        border-radius: 10px;
+    }
+
+    .report-section .card-header {
+        padding: 15px;
+    }
+
+    .report-section .card-body {
+        padding: 15px;
+    }
+
+    .report-title {
+        font-size: 16px;
+    }
+
+    .report-subtitle {
+        font-size: 12px;
+    }
+
+
+    /* =================================
+       SALES SUMMARY
+       ================================= */
+
+    .report-section .row.text-center h4 {
+        font-size: 20px;
+    }
+
+    .report-section .row.text-center p {
+        font-size: 13px;
+    }
+
+    .report-section .row.text-center i {
+        font-size: 26px !important;
+    }
+
+
+    /* =================================
+       QUICK ACTIONS
+       ================================= */
+
+    .report-section .btn {
+        padding: 11px 14px;
+        font-size: 14px;
+    }
+
+
+    /* =================================
+       INFORMATION CARD
+       ================================= */
+
+    .report-section .d-flex {
+        align-items: flex-start;
+    }
+
+    .report-section .d-flex > .report-icon {
+        flex-shrink: 0;
+    }
+
+}
+  /* =========================================================
+   PRODUCT SALES BREAKDOWN
+========================================================= */
+
+.report-section {
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.report-section .table {
+    margin-bottom: 0;
+}
+
+.report-section .table thead th {
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.report-section .table tbody td {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+.report-section .table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+/* Mobile */
+
+@media (max-width: 575.98px) {
+
+    .report-section .card-header {
+        padding: 15px;
+    }
+
+    .report-section .card-header h5 {
+        font-size: 15px;
+    }
+
+    .report-section .card-header p {
+        font-size: 11px;
+    }
+
+    .report-section .badge {
+        font-size: 10px;
+    }
+
+    .report-section .table {
+        font-size: 13px;
+    }
+
+    .report-section .table thead th,
+    .report-section .table tbody td {
+        padding: 12px 10px;
+    }
+
+}
+
+
+
+
+    @media (max-width: 575.98px) {
+
+    /* =================================
+       NAVBAR
+       ================================= */
+
+    .navbar-brand {
+        font-size: 15px;
+    }
+
+    .global-search {
+        display: none;
+    }
+
+    .user-menu .user-image {
+        width: 32px;
+        height: 32px;
+    }
+
+
+    /* =================================
+       PAGE HEADER
+       ================================= */
+
+    .app-content-header {
+        padding: 12px 8px;
+    }
+
+    .app-content-header h1 {
+        font-size: 1.25rem !important;
+    }
+
+
+    /* =================================
+       MAIN CONTENT
+       ================================= */
+
+    .app-content {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+
+    /* =================================
+       STAT CARDS
+       ================================= */
+
+    .report-number {
+        font-size: 22px;
+    }
+
+    .report-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 19px;
+    }
+
+    .report-card .card-body {
+        padding: 14px;
+    }
+
+    .report-card p {
+        font-size: 12px;
+    }
+
+
+    /* =================================
+       SALES SUMMARY
+       ================================= */
+
+    .report-section .row.text-center > div {
+        padding-top: 12px;
+        padding-bottom: 12px;
+    }
+
+    .report-section .row.text-center > div:not(:last-child) {
+        border-bottom: 1px solid rgba(128, 128, 128, 0.2);
+    }
+
+
+    /* =================================
+       INFORMATION
+       ================================= */
+
+    .report-section .d-flex {
+        flex-direction: column;
+    }
+
+    .report-section .d-flex .report-icon {
+        margin-bottom: 12px;
+    }
+
+
+    /* =================================
+       BUTTONS
+       ================================= */
+
+    .report-section .btn {
+        width: 100%;
+        font-size: 13px;
+    }
+
+}
+
+
+/* =========================
+   VERY SMALL PHONES
+   ========================= */
+
+    @media (max-width: 380px) {
+
+    .navbar-brand {
+        font-size: 13px;
+    }
+
+    .report-number {
+        font-size: 20px;
+    }
+
+    .report-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 17px;
+    }
+
+    .report-card .card-body {
+        padding: 12px;
+    }
+
+}
+    </style>
+</head>
+
+
+<body class="layout-fixed sidebar-expand-lg bg-body-tertiary">
+{% if date_error %}
+<div class="alert alert-danger d-flex align-items-center mb-3" role="alert">
+
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+    <div>
+        {{ date_error }}
+    </div>
+
+</div>
+{% endif %}
+
+<div class="app-wrapper">
+
+
+
+   <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    {% include 'partials/header.html' %}
+
+
+
+    <!-- ===================================================== -->
+    <!-- SIDEBAR -->
+    <!-- ===================================================== -->
+
+    <aside
+      id="sidebar"
+      class="sidebar"
+    >
+
+
+      <!-- Brand -->
+      <div class="sidebar-brand">
+
+        <a
+          href="{% url 'dashboard' %}"
+          class="brand-link"
+        >
+
+          <img
+            src="{% static 'images/Logo.png' %}"
+            class="brand-image"
+            alt="Logo"
+          >
+
+          <span class="brand-text">
+            IMS
+          </span>
+
+        </a>
+
+      </div>
+
+
+      <!-- Navigation -->
+      <nav class="sidebar-navigation">
+
+        <ul class="sidebar-menu">
+
+
+          <!-- Dashboard -->
+          <li>
+
+            <a href="{% url 'dashboard' %}">
+
+              <i class="bi bi-speedometer2"></i>
+
+              <span>
+                Dashboard
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Products -->
+          <li>
+
+            <a href="{% url 'product' %}">
+
+              <i class="bi bi-box-seam"></i>
+
+              <span>
+                Products
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Categories -->
+          <li>
+
+            <a href="{% url 'category' %}">
+
+              <i class="bi bi-tags"></i>
+
+              <span>
+                Categories
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Suppliers -->
+          <li>
+
+            <a href="{% url 'supplier' %}">
+
+              <i class="bi bi-truck"></i>
+
+              <span>
+                Suppliers
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Stock In -->
+          <li>
+
+            <a href="{% url 'stock' %}">
+
+              <i class="bi bi-arrow-down-circle"></i>
+
+              <span>
+                Stock In
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Stock Out -->
+          <li>
+
+            <a href="{% url 'stock_out' %}">
+
+              <i class="bi bi-arrow-up-circle"></i>
+
+              <span>
+                Stock Out
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Sales -->
+          <li>
+
+            <a href="{% url 'create_sale' %}">
+
+              <i class="bi bi-cart-check"></i>
+
+              <span>
+                Sales
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Sale Records -->
+          <li>
+
+            <a href="{% url 'sale_records' %}">
+
+              <i class="bi bi-receipt"></i>
+
+              <span>
+                Sale Records
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Reports -->
+          <li>
+
+            <a href="{% url 'reports' %}">
+
+              <i class="bi bi-file-earmark-bar-graph"></i>
+
+              <span>
+                Reports
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Users -->
+          <li>
+
+            <a href="{% url 'users' %}">
+
+              <i class="bi bi-person-gear"></i>
+
+              <span>
+                Users
+              </span>
+
+            </a>
+
+          </li>
+
+
+          <!-- Settings -->
+          <li>
+
+            <a href="{% url 'settings' %}">
+
+              <i class="bi bi-gear"></i>
+
+              <span>
+                Settings
+              </span>
+
+            </a>
+
+          </li>
+
+
+        </ul>
+
+      </nav>
+
+    </aside>
+
+
+
+    <!-- ==========================================
+         MAIN CONTENT
+    =========================================== -->
+
+    <main class="main-content">
+
+
+        <!-- Page Header -->
+
+        <div class="app-content-header">
+
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+
+                        <h1 class="mb-0 fs-3">
+                            Reports
+                        </h1>
+
+                    </div>
+
+
+                    <div class="col-sm-6">
+
+                        <nav aria-label="breadcrumb">
+
+                            <ol class="breadcrumb float-sm-end">
+
+                                <li class="breadcrumb-item">
+
+                                    <a href="{% url 'dashboard' %}">
+                                        Home
+                                    </a>
+
+                                </li>
+
+                                <li
+                                    class="breadcrumb-item active"
+                                    aria-current="page"
+                                >
+                                    Reports
+                                </li>
+
+                            </ol>
+
+                        </nav>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ==========================================
+             REPORT CONTENT
+        =========================================== -->
+
+        <div class="app-content">
+
+            <div class="container-fluid">
+
+
+                <!-- Introduction -->
+
+                <div class="mb-4">
+
+                    <h2 class="fw-semibold">
+                        Sales Overview
+                    </h2>
+
+                    <p class="text-muted mb-0">
+                        Review your sales performance and business
+                        profitability.
+                    </p>
+
+                </div>
+
+
+
+<div class="card shadow-sm border-0 mb-4">
+    <div class="card-body">
+
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-3">
+
+            <div>
+                <h5 class="mb-1">
+                    <i class="bi bi-calendar3 me-2 text-primary"></i>
+                    Report Period
+                </h5>
+
+                <p class="text-muted mb-0 small">
+                    Choose the period you want to analyze.
+                </p>
+            </div>
+
+
+            <div class="btn-group flex-wrap" role="group">
+
+                <a
+                    href="?period=all"
+                    class="btn btn-outline-primary
+                    {% if selected_period == 'all' %}active{% endif %}"
+                >
+                    All Time
+                </a>
+
+                <a
+                    href="?period=today"
+                    class="btn btn-outline-primary
+                    {% if selected_period == 'today' %}active{% endif %}"
+                >
+                    Today
+                </a>
+
+                <a
+                    href="?period=week"
+                    class="btn btn-outline-primary
+                    {% if selected_period == 'week' %}active{% endif %}"
+                >
+                    This Week
+                </a>
+
+                <a
+                    href="?period=month"
+                    class="btn btn-outline-primary
+                    {% if selected_period == 'month' %}active{% endif %}"
+                >
+                    This Month
+                </a>
+
+                <a
+                    href="?period=year"
+                    class="btn btn-outline-primary
+                    {% if selected_period == 'year' %}active{% endif %}"
+                >
+                    This Year
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<!-- Custom Date Range -->
+<div class="mt-4 pt-3 border-top">
+
+    <h6 class="fw-semibold mb-3">
+        <i class="bi bi-calendar-range me-2 text-primary"></i>
+        Custom Date Range
+    </h6>
+
+    <form method="GET" class="row g-3 align-items-end"  id="custom-date-form" >
+
+        <input type="hidden" name="period" value="custom">
+
+        <!-- From -->
+        <div class="col-md-4">
+            <label for="start_date" class="form-label">
+                From
+            </label>
+
+            <input
+                type="date"
+                id="start_date"
+                name="start_date"
+                class="form-control"
+                value="{{ start_date }}"
+                required
+            >
+        </div>
+
+        <!-- To -->
+        <div class="col-md-4">
+            <label for="end_date" class="form-label">
+                To
+            </label>
+
+            <input
+                type="date"
+                id="end_date"
+                name="end_date"
+                class="form-control"
+                value="{{ end_date }}"
+                required
+            >
+        </div>
+
+        <!-- Button -->
+        <div class="col-md-4">
+            <button
+                type="submit"
+                class="btn btn-primary w-100"
+            >
+                <i class="bi bi-bar-chart-line me-1"></i>
+                Generate Report
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+                <!-- ==========================================
+                     STAT CARDS
+                =========================================== -->
+
+                <div class="row g-4 mb-4  mt-3">
+
+
+                    <!-- Revenue -->
+
+                    <div class="col-xl-3 col-md-6">
+
+                        <div
+                            class="card report-card stat-revenue shadow-sm h-100"
+                        >
+
+                            <div class="card-body">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+
+                                    <div>
+
+                                        <p class="text-muted mb-2">
+                                            Total Revenue
+                                        </p>
+
+                                        <h3 class="report-number">
+                                            {{ currency_symbol }}{{ total_revenue|floatformat:2 }}
+                                        </h3>
+
+                                        <p class="report-label text-muted">
+                                            Sales revenue
+                                        </p>
+
+                                    </div>
+
+
+                                    <div
+                                        class="report-icon bg-success-subtle text-success"
+                                    >
+
+                                        <i class="bi bi-cash-stack"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Profit -->
+
+                    <div class="col-xl-3 col-md-6">
+
+                        <div
+                            class="card report-card stat-profit shadow-sm h-100"
+                        >
+
+                            <div class="card-body">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+
+                                    <div>
+
+                                        <p class="text-muted mb-2">
+                                            Total Profit
+                                        </p>
+
+                                        <h3 class="report-number">
+                                            {{ currency_symbol }}{{ total_profit|floatformat:2 }}
+                                        </h3>
+
+                                        <p class="report-label text-muted">
+                                            Estimated profit
+                                        </p>
+
+                                    </div>
+
+
+                                    <div
+                                        class="report-icon bg-primary-subtle text-primary"
+                                    >
+
+                                        <i class="bi bi-graph-up-arrow"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Units Sold -->
+
+                    <div class="col-xl-3 col-md-6">
+
+                        <div
+                            class="card report-card stat-units shadow-sm h-100"
+                        >
+
+                            <div class="card-body">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+
+                                    <div>
+
+                                        <p class="text-muted mb-2">
+                                            Units Sold
+                                        </p>
+
+                                        <h3 class="report-number">
+                                            {{ total_units_sold }}
+                                        </h3>
+
+                                        <p class="report-label text-muted">
+                                            Items sold
+                                        </p>
+
+                                    </div>
+
+
+                                    <div
+                                        class="report-icon bg-warning-subtle text-warning"
+                                    >
+
+                                        <i class="bi bi-cart-check"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Products Sold -->
+
+                    <div class="col-xl-3 col-md-6 ">
+
+                        <div
+                            class="card report-card stat-products shadow-sm h-100"
+                        >
+
+                            <div class="card-body">
+
+                                <div
+                                    class="d-flex justify-content-between align-items-center"
+                                >
+
+                                    <div>
+
+                                        <p class="text-muted mb-2">
+                                            Products Sold
+                                        </p>
+
+                                        <h3 class="report-number">
+                                            {{ products_sold }}
+                                        </h3>
+
+                                        <p class="report-label text-muted">
+                                            Different products
+                                        </p>
+
+                                    </div>
+
+
+                                    <div
+                                        class="report-icon bg-purple-subtle text-purple"
+                                        style="
+                                            background: rgba(111, 66, 193, 0.15);
+                                            color: #6f42c1;
+                                        "
+                                    >
+
+                                        <i class="bi bi-box-seam"></i>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- ==========================================
+                     REPORT SUMMARY
+                =========================================== -->
+
+                <div class="row g-4 mb-3">
+
+
+                    <!-- Sales Summary -->
+
+                    <div class="col-lg-8">
+
+                        <div class="card report-section shadow-sm h-100">
+
+                            <div class="card-header">
+
+                                <div
+                                    class="d-flex align-items-center"
+                                >
+
+                                    <i
+                                        class="bi bi-bar-chart-line fs-4 me-2 text-primary"
+                                    ></i>
+
+                                    <div>
+
+                                        <h5 class="report-title mb-0">
+                                            Sales Summary
+                                        </h5>
+
+                                        <p class="report-subtitle">
+                                            Overview of your current sales
+                                            performance.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+                                <div class="row text-center">
+
+
+                                    <div class="col-md-4 mb-3 mb-md-0">
+
+                                        <i
+                                            class="bi bi-currency-naira fs-2 text-success"
+                                        ></i>
+
+                                        <h4 class="mt-2">
+                                            {{ currency_symbol }}{{ total_revenue|floatformat:2 }}
+                                        </h4>
+
+                                        <p class="text-muted mb-0">
+                                            Revenue
+                                        </p>
+
+                                    </div>
+
+
+                                    <div class="col-md-4 mb-3 mb-md-0">
+
+                                        <i
+                                            class="bi bi-piggy-bank fs-2 text-primary"
+                                        ></i>
+
+                                        <h4 class="mt-2">
+                                            {{ currency_symbol }}{{ total_profit|floatformat:2 }}
+                                        </h4>
+
+                                        <p class="text-muted mb-0">
+                                            Profit
+                                        </p>
+
+                                    </div>
+
+
+                                    <div class="col-md-4">
+
+                                        <i
+                                            class="bi bi-boxes fs-2 text-warning"
+                                        ></i>
+
+                                        <h4 class="mt-2">
+                                            {{ total_units_sold }}
+                                        </h4>
+
+                                        <p class="text-muted mb-0">
+                                            Units Sold
+                                        </p>
+
+                                    </div>
+
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Quick Actions -->
+
+                    <div class="col-lg-4">
+
+                        <div class="card report-section shadow-sm h-100">
+
+                            <div class="card-header">
+
+                                <div
+                                    class="d-flex align-items-center"
+                                >
+
+                                    <i
+                                        class="bi bi-lightning-charge fs-4 me-2 text-warning"
+                                    ></i>
+
+                                    <div>
+
+                                        <h5 class="report-title mb-0">
+                                            Quick Actions
+                                        </h5>
+
+                                        <p class="report-subtitle">
+                                            Manage your sales data.
+                                        </p>
+
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+
+                            <div class="card-body">
+
+
+                                <a
+                                    href="{% url 'sale_records' %}"
+                                    class="btn btn-outline-primary w-100 mb-3"
+                                >
+
+                                    <i class="bi bi-receipt me-2"></i>
+
+                                    View Sale Records
+
+                                </a>
+
+
+                                <a
+                                    href="{% url 'create_sale' %}"
+                                    class="btn btn-primary w-100 mb-3"
+                                >
+
+                                    <i class="bi bi-cart-plus me-2"></i>
+
+                                    Create New Sale
+
+                                </a>
+                                <a
+    href="{% url 'export_sales_pdf' %}?period={{ selected_period }}{% if start_date %}&start_date={{ start_date }}{% endif %}{% if end_date %}&end_date={{ end_date }}{% endif %}"
+    class="btn btn-outline-danger w-100 mb-3"
+>
+    <i class="bi bi-file-earmark-pdf me-2"></i>
+
+    Export PDF Report
+
+</a>
+
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+                <!-- =========================================================
+     PRODUCT SALES BREAKDOWN
+========================================================= -->
+
+<div class="card shadow-sm border-0 mb-4 report-section">
+
+    <div class="card-header bg-transparent border-0">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                <h5 class="mb-1 fw-semibold">
+                    <i class="bi bi-bar-chart-line me-2 text-primary"></i>
+                    Product Sales Breakdown
+                </h5>
+
+                <p class="text-muted small mb-0">
+                    Products sold during the selected period.
+                </p>
+            </div>
+
+            <span class="badge text-bg-primary">
+                {{ products_sold }} Products
+            </span>
+
+        </div>
+
+    </div>
+
+
+    <div class="card-body p-0">
+
+        {% if product_sales %}
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead>
+                    <tr>
+                        <th class="ps-4">#</th>
+                        <th>Product</th>
+                        <th>Units Sold</th>
+                        <th>Revenue</th>
+                        <th>Profit</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+
+                    {% for product in product_sales %}
+
+                    <tr>
+
+                        <td class="ps-4">
+                            {{ forloop.counter }}
+                        </td>
+
+                        <td>
+                            <div class="d-flex align-items-center">
+
+                                <div
+                                    class="rounded-circle bg-primary bg-opacity-10
+                                           text-primary d-flex align-items-center
+                                           justify-content-center me-2"
+                                    style="width: 38px; height: 38px;"
+                                >
+                                    <i class="bi bi-box-seam"></i>
+                                </div>
+
+                                <strong>
+                                    {{ product.product__name }}
+                                </strong>
+
+                            </div>
+                        </td>
+
+                        <td>
+                            <span class="badge text-bg-secondary">
+                                {{ product.units_sold }}
+                            </span>
+                        </td>
+
+                        <td>
+                            <strong>
+                                {{ currency_symbol }}{{ product.revenue|floatformat:2 }}
+                            </strong>
+                        </td>
+
+                        <td>
+                            <span class="text-success fw-semibold">
+                                {{ currency_symbol }}{{ product.profit|floatformat:2 }}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+        {% else %}
+
+        <div class="text-center py-5">
+
+            <i class="bi bi-bar-chart fs-1 text-muted"></i>
+
+            <h6 class="mt-3">
+                No sales found
+            </h6>
+
+            <p class="text-muted mb-0">
+                There are no sales for the selected period.
+            </p>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+
+
+                <!-- ==========================================
+                     REPORT INFORMATION
+                =========================================== -->
+
+                <div class="card report-section shadow-sm mt-4">
+
+                    <div class="card-body">
+
+                        <div class="d-flex align-items-start">
+
+                            <div
+                                class="report-icon bg-primary-subtle text-primary me-3"
+                            >
+
+                                <i class="bi bi-info-circle"></i>
+
+                            </div>
+
+
+                            <div>
+
+                                <h5 class="mb-2">
+                                    About This Report
+                                </h5>
+
+                                <p class="text-muted mb-0">
+
+                                    This report uses your recorded sales
+                                    to calculate revenue, estimated profit,
+                                    total units sold, and the number of
+                                    different products that have been sold.
+
+                                    Keep your sales records accurate to
+                                    ensure your reports remain reliable.
+
+                                </p>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </main>
+
+</div>
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+<script src="{% static 'js/dashboard.js' %}"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+
+    const form = document.getElementById("custom-date-form");
+    const startDate = document.getElementById("start_date");
+    const endDate = document.getElementById("end_date");
+
+    if (!form || !startDate || !endDate) return;
+
+
+    startDate.addEventListener("change", function () {
+
+        endDate.min = startDate.value;
+
+        if (
+            endDate.value &&
+            endDate.value < startDate.value
+        ) {
+            endDate.value = "";
+        }
+
+    });
+
+
+    form.addEventListener("submit", function (event) {
+
+        if (endDate.value < startDate.value) {
+
+            event.preventDefault();
+
+            alert(
+                "Invalid date range.\n\n" +
+                "The 'To' date cannot be earlier than the 'From' date."
+            );
+
+            endDate.focus();
+
+            return;
+        }
+
+    });
+
+});
+</script>
+
+</body>
+</html>

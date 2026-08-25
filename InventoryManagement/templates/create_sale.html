@@ -1,0 +1,816 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Create Sale</title>
+
+    <!-- Bootstrap -->
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+    <style>
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: #f4f6f9;
+            font-family: Arial, sans-serif;
+        }
+
+        .page-header {
+            background: white;
+            border-bottom: 1px solid #e5e7eb;
+            padding: 20px 30px;
+        }
+
+        .page-header h2 {
+            margin: 0;
+            font-weight: 700;
+            color: #212529;
+        }
+
+        .page-header p {
+            margin: 5px 0 0;
+            color: #6c757d;
+        }
+
+        .sales-container {
+            padding: 30px;
+        }
+
+        .sales-card {
+            background: white;
+            border-radius: 15px;
+            border: none;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+            overflow: hidden;
+        }
+
+        .card-header-custom {
+            padding: 20px;
+            border-bottom: 1px solid #eee;
+            background: white;
+        }
+
+        .card-header-custom h5 {
+            margin: 0;
+            font-weight: 700;
+        }
+
+        .card-header-custom i {
+            margin-right: 8px;
+        }
+
+        .form-label {
+            font-weight: 600;
+            color: #343a40;
+        }
+
+        .form-control,
+        .form-select {
+            min-height: 48px;
+            border-radius: 10px;
+            border: 1px solid #dee2e6;
+        }
+
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+            box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+        }
+
+        .add-btn {
+            min-height: 48px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        .alert {
+            border-radius: 10px;
+        }
+
+        .cart-table {
+            margin: 0;
+        }
+
+        .cart-table th {
+            background: #f8f9fa;
+            color: #495057;
+            font-size: 14px;
+            font-weight: 700;
+            padding: 15px;
+            white-space: nowrap;
+        }
+
+        .cart-table td {
+            padding: 15px;
+            vertical-align: middle;
+        }
+
+        .product-name {
+            font-weight: 600;
+            color: #212529;
+        }
+
+        .price {
+            font-weight: 600;
+        }
+
+        .subtotal {
+            font-weight: 700;
+        }
+
+        .empty-cart {
+            text-align: center;
+            padding: 60px 20px;
+            color: #6c757d;
+        }
+
+        .empty-cart i {
+            font-size: 55px;
+            margin-bottom: 15px;
+            color: #adb5bd;
+        }
+
+        .total-box {
+            background: #f8f9fa;
+            padding: 20px;
+            border-top: 1px solid #eee;
+        }
+
+        .total-label {
+            color: #6c757d;
+            font-size: 15px;
+        }
+
+        .total-price {
+            font-size: 28px;
+            font-weight: 800;
+            color: #198754;
+        }
+
+        .complete-btn {
+            min-height: 50px;
+            border-radius: 10px;
+            font-weight: 700;
+            font-size: 16px;
+        }
+
+        .checkout-section {
+            border-top: 1px solid #eee;
+            padding: 25px;
+            background: white;
+        }
+
+        .checkout-title {
+            font-weight: 700;
+            margin-bottom: 20px;
+        }
+
+        .cancel-btn {
+            min-height: 48px;
+            border-radius: 10px;
+            font-weight: 600;
+        }
+
+        @media (max-width: 768px) {
+
+            .sales-container {
+                padding: 15px;
+            }
+
+            .page-header {
+                padding: 18px;
+            }
+
+            .cart-table {
+                min-width: 650px;
+            }
+
+            .table-wrapper {
+                overflow-x: auto;
+            }
+
+            .total-price {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+
+<!-- ===================================== -->
+<!-- PAGE HEADER -->
+<!-- ===================================== -->
+
+<div class="page-header">
+
+    <div class="d-flex align-items-center gap-3">
+
+        <i class="bi bi-cart-check fs-2 text-primary"></i>
+
+        <div>
+
+            <h2>Create Sale</h2>
+
+            <p>
+                Add products to the customer's order
+            </p>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<div class="sales-container">
+
+
+    <!-- ===================================== -->
+    <!-- MESSAGES -->
+    <!-- ===================================== -->
+
+    {% if messages %}
+
+        {% for message in messages %}
+
+            <div
+                class="alert
+                {% if message.tags == 'success' %}
+                    alert-success
+                {% elif message.tags == 'error' %}
+                    alert-danger
+                {% else %}
+                    alert-info
+                {% endif %}
+                alert-dismissible fade show"
+                role="alert"
+            >
+
+                {% if message.tags == 'success' %}
+                    <i class="bi bi-check-circle-fill me-2"></i>
+                {% else %}
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+                {% endif %}
+
+                {{ message }}
+
+                <button
+                    type="button"
+                    class="btn-close"
+                    data-bs-dismiss="alert"
+                    aria-label="Close"
+                ></button>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+
+    <div class="row g-4">
+
+
+        <!-- ===================================== -->
+        <!-- ADD PRODUCT -->
+        <!-- ===================================== -->
+
+        <div class="col-lg-4">
+
+            <div class="sales-card">
+
+                <div class="card-header-custom">
+
+                    <h5>
+
+                        <i class="bi bi-plus-circle text-primary"></i>
+
+                        Add Product
+
+                    </h5>
+
+                </div>
+
+
+                <div class="p-4">
+
+                    <form
+                        method="POST"
+                        action="{% url 'create_sale' %}"
+                    >
+
+                        {% csrf_token %}
+
+
+                        <!-- PRODUCT -->
+
+                        <div class="mb-4">
+
+                            <label
+                                for="product"
+                                class="form-label"
+                            >
+                                Product
+                            </label>
+
+
+                            <select
+                                name="product"
+                                id="product"
+                                class="form-select"
+                                required
+                            >
+
+                                <option value="">
+                                    Select Product
+                                </option>
+
+
+                                {% for product in products %}
+
+                                    <option value="{{ product.id }}">
+
+                                        {{ product.name }}
+
+                                        — {{ currency_symbol }}{{ product.selling_price }}
+
+                                        ({{ product.quantity }} available)
+
+                                    </option>
+
+                                {% endfor %}
+
+                            </select>
+
+                        </div>
+
+
+
+                        <!-- QUANTITY -->
+
+                        <div class="mb-4">
+
+                            <label
+                                for="quantity"
+                                class="form-label"
+                            >
+                                Quantity
+                            </label>
+
+
+                            <input
+                                type="number"
+                                name="quantity"
+                                id="quantity"
+                                class="form-control"
+                                min="1"
+                                placeholder="Enter quantity"
+                                required
+                            >
+
+                        </div>
+
+
+
+                        <!-- ADD BUTTON -->
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary w-100 add-btn"
+                        >
+
+                            <i class="bi bi-cart-plus me-2"></i>
+
+                            Add To Cart
+
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ===================================== -->
+        <!-- CART -->
+        <!-- ===================================== -->
+
+        <div class="col-lg-8">
+
+            <div class="sales-card">
+
+
+                <!-- CART HEADER -->
+
+                <div
+                    class="card-header-custom
+                    d-flex
+                    justify-content-between
+                    align-items-center"
+                >
+
+                    <h5>
+
+                        <i class="bi bi-cart3 text-primary"></i>
+
+                        Current Order
+
+                    </h5>
+
+
+                    {% if cart_items %}
+
+                        <span class="badge bg-primary">
+
+                            {{ cart_items|length }}
+
+                            item{{ cart_items|length|pluralize }}
+
+                        </span>
+
+                    {% endif %}
+
+                </div>
+
+
+
+                {% if cart_items %}
+
+
+                    <!-- ===================================== -->
+                    <!-- CART TABLE -->
+                    <!-- ===================================== -->
+
+                    <div class="table-wrapper">
+
+                        <table class="table cart-table mb-0">
+
+                            <thead>
+
+                                <tr>
+
+                                    <th>
+                                        Product
+                                    </th>
+
+                                    <th>
+                                        Quantity
+                                    </th>
+
+                                    <th>
+                                        Unit Price
+                                    </th>
+
+                                    <th>
+                                        Subtotal
+                                    </th>
+
+                                    <th>
+                                        Action
+                                    </th>
+
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for item in cart_items %}
+
+                                    <tr>
+
+
+                                        <!-- PRODUCT -->
+
+                                        <td>
+
+                                            <div class="product-name">
+
+                                                {{ item.product.name }}
+
+                                            </div>
+
+                                        </td>
+
+
+
+                                        <!-- QUANTITY -->
+
+                                        <td>
+
+                                            <div
+                                                class="d-flex
+                                                align-items-center
+                                                gap-2"
+                                            >
+
+
+                                                <!-- DECREASE -->
+
+                                                <a
+                                                    href="{% url 'decrease_quantity' item.product.id %}"
+                                                    class="btn btn-sm btn-outline-secondary"
+                                                >
+
+                                                    <i class="bi bi-dash"></i>
+
+                                                </a>
+
+
+
+                                                <!-- QUANTITY -->
+
+                                                <span class="fw-bold px-2">
+
+                                                    {{ item.quantity }}
+
+                                                </span>
+
+
+
+                                                <!-- INCREASE -->
+
+                                                <a
+                                                    href="{% url 'increase_quantity' item.product.id %}"
+                                                    class="btn btn-sm btn-outline-primary"
+                                                >
+
+                                                    <i class="bi bi-plus"></i>
+
+                                                </a>
+
+                                            </div>
+
+                                        </td>
+
+
+
+                                        <!-- UNIT PRICE -->
+
+                                        <td class="price">
+
+                                            {{ currency_symbol }}{{ item.unit_price }}
+
+                                        </td>
+
+
+
+                                        <!-- SUBTOTAL -->
+
+                                        <td class="subtotal">
+
+                                            {{ currency_symbol }}{{ item.subtotal }}
+
+                                        </td>
+
+
+
+                                        <!-- REMOVE -->
+
+                                        <td>
+
+                                            <a
+                                                href="{% url 'remove_from_cart' item.product.id %}"
+                                                class="btn btn-sm btn-danger"
+                                            >
+
+                                                <i class="bi bi-trash"></i>
+
+                                                Remove
+
+                                            </a>
+
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+
+
+                    <!-- ===================================== -->
+                    <!-- TOTAL -->
+                    <!-- ===================================== -->
+
+                    <div class="total-box">
+
+                        <div
+                            class="d-flex
+                            justify-content-between
+                            align-items-center"
+                        >
+
+                            <div>
+
+                                <div class="total-label">
+                                    Grand Total
+                                </div>
+
+                            </div>
+
+
+                            <div class="total-price">
+
+                                {{ currency_symbol }}{{ total }}
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- ===================================== -->
+                    <!-- CHECKOUT -->
+                    <!-- ===================================== -->
+
+                    <div class="checkout-section">
+
+                        <h5 class="checkout-title">
+
+                            <i class="bi bi-credit-card me-2 text-success"></i>
+
+                            Complete Sale
+
+                        </h5>
+
+
+                        <form
+                            method="POST"
+                            action="{% url 'complete_sale' %}"
+                        >
+
+                            {% csrf_token %}
+
+
+                            <!-- CUSTOMER NAME -->
+
+                            <div class="mb-3">
+
+                                <label
+                                    for="customer_name"
+                                    class="form-label"
+                                >
+
+                                    Customer Name
+
+                                    <span class="text-muted">
+                                        (Optional)
+                                    </span>
+
+                                </label>
+
+
+                                <input
+                                    type="text"
+                                    name="customer_name"
+                                    id="customer_name"
+                                    class="form-control"
+                                    placeholder="Enter customer name"
+                                >
+
+                            </div>
+
+
+
+                            <!-- PAYMENT METHOD -->
+
+                            <div class="mb-4">
+
+                                <label
+                                    for="payment_method"
+                                    class="form-label"
+                                >
+
+                                    Payment Method
+
+                                </label>
+
+
+                                <select name="payment_method" class="form-select" required>
+                                     <option value="">Select Payment Method</option>
+
+                                        {% for value, label in payment_methods %}
+                                         <option value="{{ value }}">{{ label }}</option>
+                                          {% endfor %}
+                                </select>
+
+                            </div>
+
+
+
+                            <!-- COMPLETE BUTTON -->
+
+                            <button
+                                type="submit"
+                                class="btn btn-success w-100 complete-btn"
+                            >
+
+                                <i class="bi bi-check-circle me-2"></i>
+
+                                Complete Sale
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+
+
+                    <!-- ===================================== -->
+                    <!-- CANCEL ORDER -->
+                    <!-- ===================================== -->
+
+                    <div class="d-flex justify-content-end p-4 pt-0">
+
+                        <a
+                            href="{% url 'clear_cart' %}"
+                            class="btn btn-outline-danger cancel-btn"
+                        >
+
+                            <i class="bi bi-x-circle me-1"></i>
+
+                            Cancel Order
+
+                        </a>
+
+                    </div>
+
+
+
+                {% else %}
+
+
+                    <!-- ===================================== -->
+                    <!-- EMPTY CART -->
+                    <!-- ===================================== -->
+
+                    <div class="empty-cart">
+
+                        <i class="bi bi-cart-x d-block"></i>
+
+
+                        <h5>
+                            Your cart is empty
+                        </h5>
+
+
+                        <p class="mb-0">
+
+                            Select a product and quantity
+                            to add it to the order.
+
+                        </p>
+
+                    </div>
+
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- Bootstrap JS -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+</body>
+</html>

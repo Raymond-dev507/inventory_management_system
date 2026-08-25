@@ -1,0 +1,1084 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>Sale #{{ sale.id }} - Sale Details</title>
+
+
+    <!-- Bootstrap -->
+
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
+
+
+    <!-- Bootstrap Icons -->
+
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+    >
+
+
+    <style>
+
+        body {
+
+            background: #f5f7fb;
+
+            font-family: "Segoe UI", sans-serif;
+
+            color: #1f2937;
+
+        }
+
+
+        .page-container {
+
+            max-width: 1200px;
+
+            margin: auto;
+
+            padding: 35px 20px;
+
+        }
+
+
+        .page-header {
+
+            margin-bottom: 25px;
+
+        }
+
+
+        .back-btn {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            color: #667085;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            font-weight: 600;
+
+            margin-bottom: 15px;
+
+        }
+
+
+        .back-btn:hover {
+
+            color: #0d6efd;
+
+        }
+
+
+        .page-title {
+
+            font-size: 27px;
+
+            font-weight: 700;
+
+            margin-bottom: 5px;
+
+        }
+
+
+        .page-subtitle {
+
+            color: #8a93a3;
+
+            font-size: 14px;
+
+            margin: 0;
+
+        }
+
+
+        /* =========================
+           BUSINESS HEADER
+        ========================= */
+
+        .business-header {
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            padding: 20px 25px;
+
+            border: none;
+
+            box-shadow: 0 3px 18px rgba(0, 0, 0, 0.05);
+
+            margin-bottom: 20px;
+
+            text-align: center;
+
+        }
+
+
+        .business-name {
+
+            font-size: 20px;
+
+            font-weight: 700;
+
+            color: #1f2937;
+
+            margin-bottom: 6px;
+
+        }
+
+
+        .business-line {
+
+            color: #8a93a3;
+
+            font-size: 13px;
+
+            line-height: 1.6;
+
+        }
+
+
+        .sale-header-card {
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            padding: 25px;
+
+            border: none;
+
+            box-shadow: 0 3px 18px rgba(0, 0, 0, 0.05);
+
+            margin-bottom: 20px;
+
+        }
+
+
+        .sale-number {
+
+            font-size: 22px;
+
+            font-weight: 700;
+
+            color: #0d6efd;
+
+        }
+
+
+        .sale-date {
+
+            color: #8a93a3;
+
+            font-size: 13px;
+
+            margin-top: 4px;
+
+        }
+
+
+        .payment-badge {
+
+            display: inline-flex;
+
+            align-items: center;
+
+            gap: 7px;
+
+            padding: 7px 13px;
+
+            border-radius: 20px;
+
+            font-size: 12px;
+
+            font-weight: 600;
+
+        }
+
+
+        .payment-cash {
+
+            background: #eaf8ef;
+
+            color: #198754;
+
+        }
+
+
+        .payment-transfer {
+
+            background: #eef4ff;
+
+            color: #0d6efd;
+
+        }
+
+
+        .payment-pos {
+
+            background: #fff4e5;
+
+            color: #d97706;
+
+        }
+
+
+        .info-card {
+
+            background: #ffffff;
+
+            border-radius: 12px;
+
+            padding: 18px;
+
+            height: 100%;
+
+            border: 1px solid #edf0f4;
+
+        }
+
+
+        .info-label {
+
+            color: #8a93a3;
+
+            font-size: 12px;
+
+            margin-bottom: 6px;
+
+            text-transform: uppercase;
+
+            letter-spacing: .3px;
+
+        }
+
+
+        .info-value {
+
+            font-size: 15px;
+
+            font-weight: 600;
+
+        }
+
+
+        .info-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            display: flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #eef4ff;
+
+            color: #0d6efd;
+
+            margin-bottom: 10px;
+
+        }
+
+
+        .products-card {
+
+            background: #ffffff;
+
+            border-radius: 14px;
+
+            border: none;
+
+            box-shadow: 0 3px 18px rgba(0, 0, 0, 0.05);
+
+            overflow: hidden;
+
+        }
+
+
+        .card-header-custom {
+
+            padding: 20px 22px;
+
+            border-bottom: 1px solid #edf0f5;
+
+        }
+
+
+        .card-title-custom {
+
+            font-size: 17px;
+
+            font-weight: 700;
+
+            margin: 0;
+
+        }
+
+
+        .card-subtitle-custom {
+
+            color: #8a93a3;
+
+            font-size: 13px;
+
+            margin-top: 4px;
+
+        }
+
+
+        .products-table {
+
+            margin: 0;
+
+        }
+
+
+        .products-table thead th {
+
+            background: #f8f9fc;
+
+            color: #70798a;
+
+            font-size: 12px;
+
+            font-weight: 700;
+
+            text-transform: uppercase;
+
+            letter-spacing: .3px;
+
+            padding: 15px 20px;
+
+            border-bottom: 1px solid #e8ebf0;
+
+        }
+
+
+        .products-table tbody td {
+
+            padding: 17px 20px;
+
+            vertical-align: middle;
+
+            border-bottom: 1px solid #f0f2f5;
+
+            font-size: 14px;
+
+        }
+
+
+        .product-name {
+
+            font-weight: 600;
+
+        }
+
+
+        .product-icon {
+
+            width: 38px;
+
+            height: 38px;
+
+            border-radius: 9px;
+
+            display: inline-flex;
+
+            align-items: center;
+
+            justify-content: center;
+
+            background: #f1f4f8;
+
+            color: #687385;
+
+            margin-right: 10px;
+
+        }
+
+
+        .quantity-text {
+
+            color: #667085;
+
+        }
+
+
+        .price-text {
+
+            font-weight: 600;
+
+        }
+
+
+        .subtotal-text {
+
+            font-weight: 700;
+
+        }
+
+
+        .total-section {
+
+            padding: 22px;
+
+            background: #fafbfc;
+
+        }
+
+
+        .total-row {
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+        }
+
+
+        .total-label {
+
+            font-size: 16px;
+
+            font-weight: 600;
+
+        }
+
+
+        .total-amount {
+
+            font-size: 25px;
+
+            font-weight: 700;
+
+            color: #0d6efd;
+
+        }
+
+
+        .action-buttons {
+
+            margin-top: 20px;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            align-items: center;
+
+            flex-wrap: wrap;
+
+            gap: 10px;
+
+        }
+
+
+        .btn-back {
+
+            border: 1px solid #dfe3e8;
+
+            background: #ffffff;
+
+            color: #667085;
+
+            border-radius: 8px;
+
+            padding: 9px 16px;
+
+            font-weight: 600;
+
+        }
+
+
+        .btn-back:hover {
+
+            background: #f8f9fa;
+
+        }
+
+
+        .btn-print {
+
+            border-radius: 8px;
+
+            padding: 9px 16px;
+
+            font-weight: 600;
+
+        }
+
+
+        @media print {
+
+            body {
+
+                background: #ffffff;
+
+            }
+
+
+            .page-container {
+
+                padding: 0;
+
+                max-width: 100%;
+
+            }
+
+
+            .back-btn,
+
+            .action-buttons {
+
+                display: none !important;
+
+            }
+
+
+            .sale-header-card,
+
+            .business-header,
+
+            .products-card {
+
+                box-shadow: none;
+
+                border: 1px solid #ddd;
+
+            }
+
+        }
+
+
+        @media (max-width: 768px) {
+
+            .page-container {
+
+                padding: 20px 12px;
+
+            }
+
+
+            .page-title {
+
+                font-size: 23px;
+
+            }
+
+
+            .sale-header-card {
+
+                padding: 18px;
+
+            }
+
+
+            .products-table {
+
+                min-width: 700px;
+
+            }
+
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<div class="page-container">
+
+
+    <div class="page-header">
+
+
+        <a href="{% url 'sale_records' %}"
+           class="back-btn">
+
+            <i class="bi bi-arrow-left"></i>
+
+            Back to Sale Records
+
+        </a>
+
+
+        <h1 class="page-title">
+
+            Sale Details
+
+        </h1>
+
+
+        <p class="page-subtitle">
+
+            View the complete information for this transaction.
+
+        </p>
+
+    </div>
+
+
+
+    <!-- =========================
+         BUSINESS HEADER
+    ========================= -->
+
+    <div class="business-header">
+
+        <div class="business-name">
+            {{ settings.business_name }}
+        </div>
+
+        {% if settings.address %}
+            <div class="business-line">
+                {{ settings.address }}
+            </div>
+        {% endif %}
+
+        {% if settings.phone or settings.email %}
+            <div class="business-line">
+
+                {% if settings.phone %}{{ settings.phone }}{% endif %}
+
+                {% if settings.phone and settings.email %}
+                    &nbsp;&middot;&nbsp;
+                {% endif %}
+
+                {% if settings.email %}{{ settings.email }}{% endif %}
+
+            </div>
+        {% endif %}
+
+    </div>
+
+
+
+    <div class="sale-header-card">
+
+
+        <div class="d-flex justify-content-between align-items-start flex-wrap gap-3">
+
+
+            <div>
+
+                <div class="sale-number">
+
+                    Sale #{{ sale.id }}
+
+                </div>
+
+
+                <div class="sale-date">
+
+                    <i class="bi bi-calendar3 me-1"></i>
+
+                    {{ sale.date|date:datetime_format_str }}
+
+                </div>
+
+            </div>
+
+
+            <div>
+
+                {% if sale.payment_method == "cash" %}
+
+                    <span class="payment-badge payment-cash">
+
+                        <i class="bi bi-cash"></i>
+
+                        Cash
+
+                    </span>
+
+
+                {% elif sale.payment_method == "transfer" %}
+
+                    <span class="payment-badge payment-transfer">
+
+                        <i class="bi bi-bank"></i>
+
+                        Bank Transfer
+
+                    </span>
+
+
+                {% elif sale.payment_method == "pos" %}
+
+                    <span class="payment-badge payment-pos">
+
+                        <i class="bi bi-credit-card"></i>
+
+                        POS
+
+                    </span>
+
+                {% endif %}
+
+            </div>
+
+
+        </div>
+
+
+
+        <div class="row g-3 mt-3">
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-person"></i>
+
+                    </div>
+
+
+                    <div class="info-label">
+
+                        Customer
+
+                    </div>
+
+
+                    <div class="info-value">
+
+                        {% if sale.customer_name %}
+
+                            {{ sale.customer_name }}
+
+                        {% else %}
+
+                            Walk-in Customer
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-person-check"></i>
+
+                    </div>
+
+
+                    <div class="info-label">
+
+                        Processed By
+
+                    </div>
+
+
+                    <div class="info-value">
+
+                        {% if sale.processed_by %}
+
+                            {{ sale.processed_by.username }}
+
+                        {% else %}
+
+                            Not available
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+
+            <div class="col-lg-4 col-md-6">
+
+                <div class="info-card">
+
+                    <div class="info-icon">
+
+                        <i class="bi bi-wallet2"></i>
+
+                    </div>
+
+
+                    <div class="info-label">
+
+                        Payment Method
+
+                    </div>
+
+
+                    <div class="info-value">
+
+                        {% if sale.payment_method == "cash" %}
+
+                            Cash
+
+                        {% elif sale.payment_method == "transfer" %}
+
+                            Bank Transfer
+
+                        {% elif sale.payment_method == "pos" %}
+
+                            POS
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+    </div>
+
+
+
+    <div class="products-card">
+
+
+        <div class="card-header-custom">
+
+            <h5 class="card-title-custom">
+
+                Products Sold
+
+            </h5>
+
+
+            <div class="card-subtitle-custom">
+
+                Items included in Sale #{{ sale.id }}
+
+            </div>
+
+        </div>
+
+
+
+        <div class="table-responsive">
+
+
+            <table class="table products-table">
+
+
+                <thead>
+
+                    <tr>
+
+                        <th>Product</th>
+
+                        <th>Quantity</th>
+
+                        <th>Unit Price</th>
+
+                        <th>Subtotal</th>
+
+                    </tr>
+
+                </thead>
+
+
+                <tbody>
+
+
+                {% for item in sale.items.all %}
+
+
+                    <tr>
+
+
+                        <td>
+
+                            <div class="d-flex align-items-center">
+
+                                <span class="product-icon">
+
+                                    <i class="bi bi-box-seam"></i>
+
+                                </span>
+
+
+                                <span class="product-name">
+
+                                    {{ item.product.name }}
+
+                                </span>
+
+                            </div>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="quantity-text">
+
+                                {{ item.quantity }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="price-text">
+
+                                {{ currency_symbol }}{{ item.unit_price|floatformat:2 }}
+
+                            </span>
+
+                        </td>
+
+
+                        <td>
+
+                            <span class="subtotal-text">
+
+                                {{ currency_symbol }}{{ item.subtotal|floatformat:2 }}
+
+                            </span>
+
+                        </td>
+
+
+                    </tr>
+
+
+                {% empty %}
+
+
+                    <tr>
+
+                        <td colspan="4"
+                            class="text-center py-5 text-muted">
+
+                            <i class="bi bi-box-seam fs-2"></i>
+
+
+                            <div class="mt-2">
+
+                                No products found for this sale.
+
+                            </div>
+
+                        </td>
+
+                    </tr>
+
+
+                {% endfor %}
+
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+
+
+        <div class="total-section">
+
+            <div class="total-row">
+
+                <span class="total-label">
+
+                    Total Amount
+
+                </span>
+
+
+                <span class="total-amount">
+
+                    {{ currency_symbol }}{{ sale.total_amount|floatformat:2 }}
+
+                </span>
+
+            </div>
+
+        </div>
+
+
+    </div>
+
+
+
+    <div class="action-buttons">
+
+
+        <a href="{% url 'sale_records' %}"
+           class="btn btn-back">
+
+            <i class="bi bi-arrow-left me-1"></i>
+
+            Back to Records
+
+        </a>
+
+
+        <button
+            type="button"
+            class="btn btn-primary btn-print"
+            onclick="window.print()"
+        >
+
+            <i class="bi bi-printer me-1"></i>
+
+            Print Sale
+
+        </button>
+
+
+    </div>
+
+
+</div>
+
+
+</body>
+
+</html>

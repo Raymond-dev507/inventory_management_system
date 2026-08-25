@@ -1,0 +1,1329 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Users</title>
+
+
+    <!-- Bootstrap Icons -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
+
+
+    <!-- Bootstrap -->
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css"
+    >
+
+
+    <!-- Our CSS -->
+    <link
+        rel="stylesheet"
+        href="{% static 'css/style.css' %}"
+    >
+
+</head>
+
+
+<body>
+
+
+<!-- ===================================================== -->
+<!-- PAGE WRAPPER -->
+<!-- ===================================================== -->
+
+<div class="page-wrapper">
+
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    {% include 'partials/header.html' %}
+
+
+
+    <!-- ===================================================== -->
+    <!-- SIDEBAR -->
+    <!-- ===================================================== -->
+
+    <aside
+        id="sidebar"
+        class="sidebar"
+    >
+
+
+        <!-- Brand -->
+        <div class="sidebar-brand">
+
+            <a
+                href="{% url 'dashboard' %}"
+                class="brand-link"
+            >
+
+                <img
+                    src="{% static 'images/Logo.png' %}"
+                    class="brand-image"
+                    alt="Logo"
+                >
+
+                <span class="brand-text">
+                    IMS
+                </span>
+
+            </a>
+
+        </div>
+
+
+        <!-- Navigation -->
+        <nav class="sidebar-navigation">
+
+            <ul class="sidebar-menu">
+
+
+                <!-- Dashboard -->
+                <li>
+
+                    <a href="{% url 'dashboard' %}">
+
+                        <i class="bi bi-speedometer2"></i>
+
+                        <span>
+                            Dashboard
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Products -->
+                <li>
+
+                    <a href="{% url 'product' %}">
+
+                        <i class="bi bi-box-seam"></i>
+
+                        <span>
+                            Products
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Categories -->
+                <li>
+
+                    <a href="{% url 'category' %}">
+
+                        <i class="bi bi-tags"></i>
+
+                        <span>
+                            Categories
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Suppliers -->
+                <li>
+
+                    <a href="{% url 'supplier' %}">
+
+                        <i class="bi bi-truck"></i>
+
+                        <span>
+                            Suppliers
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Stock In -->
+                <li>
+
+                    <a href="{% url 'stock' %}">
+
+                        <i class="bi bi-arrow-down-circle"></i>
+
+                        <span>
+                            Stock In
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Stock Out -->
+                <li>
+
+                    <a href="{% url 'stock_out' %}">
+
+                        <i class="bi bi-arrow-up-circle"></i>
+
+                        <span>
+                            Stock Out
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Sales -->
+                <li>
+
+                    <a href="{% url 'create_sale' %}">
+
+                        <i class="bi bi-cart-check"></i>
+
+                        <span>
+                            Sales
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Sale Records -->
+                <li>
+
+                    <a href="{% url 'sale_records' %}">
+
+                        <i class="bi bi-receipt"></i>
+
+                        <span>
+                            Sale Records
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Reports -->
+                <li>
+
+                    <a href="{% url 'reports' %}">
+
+                        <i class="bi bi-file-earmark-bar-graph"></i>
+
+                        <span>
+                            Reports
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Users -->
+                <li class="active">
+
+                    <a href="{% url 'users' %}">
+
+                        <i class="bi bi-person-gear"></i>
+
+                        <span>
+                            Users
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+                <!-- Settings -->
+                <li>
+
+                    <a href="{% url 'settings' %}">
+
+                        <i class="bi bi-gear"></i>
+
+                        <span>
+                            Settings
+                        </span>
+
+                    </a>
+
+                </li>
+
+
+            </ul>
+
+        </nav>
+
+    </aside>
+
+
+
+    <!-- ===================================================== -->
+    <!-- MAIN CONTENT -->
+    <!-- ===================================================== -->
+
+    <main class="main-content">
+
+
+        <!-- ================================================= -->
+        <!-- MESSAGES -->
+        <!-- ================================================= -->
+
+        {% if messages %}
+
+            {% for message in messages %}
+
+                <div
+                    class="
+                        alert
+                        {% if message.tags == 'success' %}
+                            alert-success
+                        {% elif message.tags == 'error' %}
+                            alert-danger
+                        {% elif message.tags == 'warning' %}
+                            alert-warning
+                        {% else %}
+                            alert-info
+                        {% endif %}
+                        alert-dismissible
+                        fade
+                        show
+                    "
+                    role="alert"
+                >
+
+                    {% if message.tags == 'success' %}
+
+                        <i class="bi bi-check-circle-fill me-2"></i>
+
+                    {% elif message.tags == 'error' %}
+
+                        <i class="bi bi-exclamation-triangle-fill me-2"></i>
+
+                    {% elif message.tags == 'warning' %}
+
+                        <i class="bi bi-exclamation-circle-fill me-2"></i>
+
+                    {% else %}
+
+                        <i class="bi bi-info-circle-fill me-2"></i>
+
+                    {% endif %}
+
+                    {{ message }}
+
+                    <button
+                        type="button"
+                        class="btn-close"
+                        data-bs-dismiss="alert"
+                        aria-label="Close"
+                    ></button>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+
+
+        <!-- ================================================= -->
+        <!-- PAGE HEADER -->
+        <!-- ================================================= -->
+
+        <div
+            class="app-content-header"
+            id="header"
+        >
+
+            <div class="container-fluid">
+
+                <div class="row">
+
+                    <div class="col-sm-6">
+
+                        <h1 class="mb-0 fs-3">
+
+                            {% if show_deleted %}
+                                Deleted Users
+                            {% else %}
+                                Users
+                            {% endif %}
+
+                        </h1>
+
+                    </div>
+
+
+                    <div class="col-sm-6">
+
+                        <nav aria-label="breadcrumb">
+
+                            <ol class="breadcrumb float-sm-end">
+
+                                <li class="breadcrumb-item">
+
+                                    <a href="{% url 'dashboard' %}">
+                                        Home
+                                    </a>
+
+                                </li>
+
+                                <li
+                                    class="breadcrumb-item active"
+                                    aria-current="page"
+                                >
+
+                                    {% if show_deleted %}
+                                        Deleted Users
+                                    {% else %}
+                                        Users
+                                    {% endif %}
+
+                                </li>
+
+                            </ol>
+
+                        </nav>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- USERS CONTENT -->
+        <!-- ================================================= -->
+
+        <section class="dashboard-content">
+
+            <div class="container-fluid">
+
+
+                <!-- ================================================= -->
+                <!-- USER SUMMARY -->
+                <!-- ================================================= -->
+
+                <div class="row">
+
+
+                    <!-- Total Users -->
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+
+                        <div class="summary-card">
+
+                            <div class="summary-card-content">
+
+                                <h3>
+                                    {{ total_users }}
+                                </h3>
+
+                                <p>
+                                    {% if show_deleted %}
+                                        Deleted Users
+                                    {% else %}
+                                        Total Users
+                                    {% endif %}
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-people summary-card-icon"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Active Users -->
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+
+                        <div class="summary-card">
+
+                            <div class="summary-card-content">
+
+                                <h3>
+                                    {{ active_users }}
+                                </h3>
+
+                                <p>
+                                    Active Users
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-person-check summary-card-icon"></i>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Staff Users -->
+                    <div class="col-lg-4 col-md-6 col-12 mb-4">
+
+                        <div class="summary-card">
+
+                            <div class="summary-card-content">
+
+                                <h3>
+                                    {{ staff_users }}
+                                </h3>
+
+                                <p>
+                                    Staff Users
+                                </p>
+
+                            </div>
+
+                            <i class="bi bi-person-badge summary-card-icon"></i>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- ================================================= -->
+                <!-- USERS TABLE -->
+                <!-- ================================================= -->
+
+                <div class="row">
+
+                    <div class="col-12">
+
+                        <div class="dashboard-card">
+
+
+                            <!-- Card Header -->
+                            <div class="dashboard-card-header">
+
+                                <div>
+
+                                    <h3>
+
+                                        <i class="bi bi-people"></i>
+
+                                        {% if show_deleted %}
+                                            Deleted Users
+                                        {% else %}
+                                            System Users
+                                        {% endif %}
+
+                                    </h3>
+
+                                    <small>
+
+                                        {% if show_deleted %}
+
+                                            Deleted users available for restoration
+
+                                        {% else %}
+
+                                            Users who have access to the inventory system
+
+                                        {% endif %}
+
+                                    </small>
+
+                                </div>
+
+
+                                <!-- Header Buttons -->
+                                <div class="d-flex gap-2">
+
+
+                                    <!-- Add User -->
+                                    {% if not show_deleted %}
+
+                                        <a
+                                            href="{% url 'add_user' %}"
+                                            class="btn btn-primary"
+                                        >
+                                            <i class="bi bi-person-plus me-1"></i>
+                                            Add User
+                                        </a>
+
+                                    {% endif %}
+
+
+                                    <!-- Deleted Users / Back -->
+                                    {% if request.user.is_superuser %}
+
+                                        {% if show_deleted %}
+
+                                            <a
+                                                href="{% url 'users' %}"
+                                                class="btn btn-outline-secondary"
+                                            >
+                                                <i class="bi bi-arrow-left me-2"></i>
+                                                Back to Users
+                                            </a>
+
+                                        {% else %}
+
+                                            <a
+                                                href="{% url 'users' %}?show_deleted=1"
+                                                class="btn btn-outline-danger"
+                                            >
+                                                <i class="bi bi-trash me-2"></i>
+                                                Deleted Users
+                                            </a>
+
+                                        {% endif %}
+
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+
+
+                            <!-- Card Body -->
+                            <div class="dashboard-card-body p-0">
+
+                                <div class="table-responsive">
+
+                                    <table class="table table-hover align-middle mb-0">
+
+                                        <thead>
+
+                                            <tr>
+
+                                                <th>
+                                                    #
+                                                </th>
+
+                                                <th>
+                                                    User
+                                                </th>
+
+                                                <th>
+                                                    Email
+                                                </th>
+
+                                                <th>
+                                                    Role
+                                                </th>
+
+                                                <th>
+                                                    Status
+                                                </th>
+
+                                                <th>
+                                                    Date Joined
+                                                </th>
+
+                                                <th>
+                                                    Last Login
+                                                </th>
+
+                                                <th>
+                                                    Action
+                                                </th>
+
+                                            </tr>
+
+                                        </thead>
+
+
+                                        <tbody>
+
+
+                                            {% for user in users %}
+
+                                                <tr>
+
+
+                                                    <!-- Number -->
+                                                    <td>
+                                                        {{ forloop.counter }}
+                                                    </td>
+
+
+                                                    <!-- User -->
+                                                    <td>
+
+                                                        <div class="d-flex align-items-center">
+
+                                                            <div
+                                                                class="rounded-circle bg-secondary text-white d-flex align-items-center justify-content-center me-2"
+                                                                style="width: 40px; height: 40px;"
+                                                            >
+
+                                                                <i class="bi bi-person"></i>
+
+                                                            </div>
+
+
+                                                            <div>
+
+                                                                <strong>
+                                                                    {{ user.username }}
+                                                                </strong>
+
+
+                                                                {% if user.get_full_name %}
+
+                                                                    <small class="d-block text-muted">
+                                                                        {{ user.get_full_name }}
+                                                                    </small>
+
+                                                                {% endif %}
+
+                                                            </div>
+
+                                                        </div>
+
+                                                    </td>
+
+
+                                                    <!-- Email -->
+                                                    <td>
+
+                                                        {% if user.email %}
+
+                                                            {{ user.email }}
+
+                                                        {% else %}
+
+                                                            <span class="text-muted">
+                                                                No email
+                                                            </span>
+
+                                                        {% endif %}
+
+                                                    </td>
+
+
+                                                    <!-- Role / Group -->
+                                                    <td>
+
+                                                        {% if user.is_superuser %}
+
+                                                            <span class="badge bg-danger">
+                                                                Administrator
+                                                            </span>
+
+                                                        {% else %}
+
+                                                            {% for group in user.groups.all %}
+
+                                                                <span class="badge bg-primary me-1">
+                                                                    {{ group.name }}
+                                                                </span>
+
+                                                            {% empty %}
+
+                                                                <span class="badge bg-secondary">
+                                                                    No Group
+                                                                </span>
+
+                                                            {% endfor %}
+
+                                                        {% endif %}
+
+                                                    </td>
+
+
+                                                    <!-- Status -->
+                                                    <td>
+
+                                                        {% if user.is_active %}
+
+                                                            <span class="badge bg-success">
+                                                                Active
+                                                            </span>
+
+                                                        {% else %}
+
+                                                            <span class="badge bg-secondary">
+                                                                Inactive
+                                                            </span>
+
+                                                        {% endif %}
+
+                                                    </td>
+
+
+                                                    <!-- Date Joined -->
+                                                    <td>
+                                                        {{ user.date_joined|date:date_format_str }}
+                                                    </td>
+
+
+                                                    <!-- Last Login -->
+                                                    <td>
+
+                                                        {% if user.last_login %}
+
+                                                            {{ user.last_login|date:datetime_format_str }}
+
+                                                        {% else %}
+
+                                                            <span class="text-muted">
+                                                                Never
+                                                            </span>
+
+                                                        {% endif %}
+
+                                                    </td>
+
+
+                                                    <!-- Action -->
+                                                    <td>
+
+                                                        <div class="dropdown">
+
+                                                            <button
+                                                                type="button"
+                                                                class="btn btn-sm btn-outline-secondary"
+                                                                data-bs-toggle="dropdown"
+                                                                aria-expanded="false"
+                                                                title="User actions"
+                                                            >
+
+                                                                <i class="bi bi-three-dots"></i>
+
+                                                            </button>
+
+
+                                                            <ul class="dropdown-menu dropdown-menu-end">
+
+
+                                                                <!-- Edit -->
+                                                                {% if not show_deleted %}
+
+                                                                    {% if perms.auth.change_user %}
+
+                                                                        {% if not user.is_superuser or request.user.is_superuser %}
+
+                                                                            <li>
+
+                                                                                <a
+                                                                                    class="dropdown-item"
+                                                                                    href="{% url 'edit_user' user.id %}"
+                                                                                >
+
+                                                                                    <i class="bi bi-pencil me-2"></i>
+
+                                                                                    Edit User
+
+                                                                                </a>
+
+                                                                            </li>
+
+                                                                        {% endif %}
+
+                                                                    {% endif %}
+
+                                                                {% endif %}
+
+
+
+                                                                <!-- Activate / Deactivate -->
+                                                                {% if not show_deleted %}
+
+                                                                    {% if perms.auth.change_user %}
+
+                                                                        {% if not user.is_superuser or request.user.is_superuser %}
+
+                                                                            <li>
+
+                                                                                <form
+                                                                                    method="POST"
+                                                                                    action="{% url 'deactivate_user' user.id %}"
+                                                                                >
+
+                                                                                    {% csrf_token %}
+
+                                                                                    <button
+                                                                                        type="submit"
+                                                                                        class="dropdown-item"
+                                                                                    >
+
+                                                                                        {% if user.is_active %}
+
+                                                                                            <i class="bi bi-person-x me-2"></i>
+
+                                                                                            Deactivate User
+
+                                                                                        {% else %}
+
+                                                                                            <i class="bi bi-person-check me-2"></i>
+
+                                                                                            Activate User
+
+                                                                                        {% endif %}
+
+                                                                                    </button>
+
+                                                                                </form>
+
+                                                                            </li>
+
+                                                                        {% endif %}
+
+                                                                    {% endif %}
+
+                                                                {% endif %}
+
+
+
+                                                                <!-- Divider -->
+                                                                <li>
+
+                                                                    <hr class="dropdown-divider">
+
+                                                                </li>
+
+
+
+                                                                <!-- Delete -->
+                                                                {% if not show_deleted %}
+
+                                                                    {% if perms.auth.delete_user %}
+
+                                                                        {% if not user.is_superuser or request.user.is_superuser %}
+
+                                                                            <li>
+
+                                                                                <button
+                                                                                    type="button"
+                                                                                    class="dropdown-item text-danger"
+                                                                                    data-bs-toggle="modal"
+                                                                                    data-bs-target="#deleteUser{{ user.id }}"
+                                                                                >
+
+                                                                                    <i class="bi bi-trash me-2"></i>
+
+                                                                                    Delete User
+
+                                                                                </button>
+
+                                                                            </li>
+
+                                                                        {% endif %}
+
+                                                                    {% endif %}
+
+                                                                {% endif %}
+
+
+
+                                                                <!-- Restore -->
+                                                                {% if show_deleted and request.user.is_superuser %}
+
+                                                                    {% if user.deletion_record %}
+
+                                                                        <li>
+
+                                                                            <button
+                                                                                type="button"
+                                                                                class="dropdown-item text-success"
+                                                                                data-bs-toggle="modal"
+                                                                                data-bs-target="#restoreUser{{ user.id }}"
+                                                                            >
+
+                                                                                <i class="bi bi-arrow-counterclockwise me-2"></i>
+
+                                                                                Restore User
+
+                                                                            </button>
+
+                                                                        </li>
+
+                                                                    {% endif %}
+
+                                                                {% endif %}
+
+
+                                                            </ul>
+
+                                                        </div>
+
+                                                    </td>
+
+
+                                                </tr>
+
+
+                                            {% empty %}
+
+                                                <tr>
+
+                                                    <td
+                                                        colspan="8"
+                                                        class="text-center py-5"
+                                                    >
+
+                                                        <div class="empty-state">
+
+                                                            {% if show_deleted %}
+
+                                                                <i class="bi bi-trash"></i>
+
+                                                                <p>
+                                                                    No deleted users found.
+                                                                </p>
+
+                                                            {% else %}
+
+                                                                <i class="bi bi-people"></i>
+
+                                                                <p>
+                                                                    No users found.
+                                                                </p>
+
+                                                            {% endif %}
+
+                                                        </div>
+
+                                                    </td>
+
+                                                </tr>
+
+                                            {% endfor %}
+
+
+                                        </tbody>
+
+                                    </table>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+        </section>
+
+    </main>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- DELETE USER MODALS -->
+<!-- ===================================================== -->
+
+{% if not show_deleted %}
+
+    {% for user in users %}
+
+        <div
+            class="modal fade"
+            id="deleteUser{{ user.id }}"
+            tabindex="-1"
+            aria-labelledby="deleteUserLabel{{ user.id }}"
+            aria-hidden="true"
+        >
+
+            <div class="modal-dialog modal-dialog-centered">
+
+                <div class="modal-content">
+
+
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+
+                        <h5
+                            class="modal-title text-danger"
+                            id="deleteUserLabel{{ user.id }}"
+                        >
+
+                            <i class="bi bi-trash3-fill"></i>
+
+                            Delete User
+
+                        </h5>
+
+
+                        <button
+                            type="button"
+                            class="btn-close"
+                            data-bs-dismiss="modal"
+                            aria-label="Close"
+                        ></button>
+
+                    </div>
+
+
+
+                    <!-- Modal Body -->
+                    <div class="modal-body text-center">
+
+                        <i
+                            class="bi bi-exclamation-triangle-fill text-danger"
+                            style="font-size: 70px"
+                        ></i>
+
+
+                        <h4 class="mt-3">
+                            Are You Sure?
+                        </h4>
+
+
+                        <p class="text-muted">
+
+                            You are about to delete
+
+                            <strong>
+                                {{ user.username }}
+                            </strong>
+
+                        </p>
+
+
+                        <div class="alert alert-warning mt-3 mb-0">
+
+                            <i class="bi bi-info-circle-fill"></i>
+
+                            This user will be deactivated and hidden
+                            from the normal users list.
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- Modal Footer -->
+                    <div class="modal-footer">
+
+                        <button
+                            type="button"
+                            class="btn btn-secondary"
+                            data-bs-dismiss="modal"
+                        >
+
+                            <i class="bi bi-x-circle"></i>
+
+                            Cancel
+
+                        </button>
+
+
+                        <form
+                            method="POST"
+                            action="{% url 'delete_user' user.id %}"
+                        >
+
+                            {% csrf_token %}
+
+                            <button
+                                type="submit"
+                                class="btn btn-danger"
+                            >
+
+                                <i class="bi bi-trash3-fill"></i>
+
+                                Delete
+
+                            </button>
+
+                        </form>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+{% endif %}
+
+
+
+<!-- ===================================================== -->
+<!-- RESTORE USER MODALS -->
+<!-- ===================================================== -->
+
+{% if show_deleted and request.user.is_superuser %}
+
+    {% for user in users %}
+
+        {% if user.deletion_record %}
+
+            <div
+                class="modal fade"
+                id="restoreUser{{ user.id }}"
+                tabindex="-1"
+                aria-labelledby="restoreUserLabel{{ user.id }}"
+                aria-hidden="true"
+            >
+
+                <div class="modal-dialog modal-dialog-centered">
+
+                    <div class="modal-content">
+
+
+                        <!-- Modal Header -->
+                        <div class="modal-header">
+
+                            <h5
+                                class="modal-title text-success"
+                                id="restoreUserLabel{{ user.id }}"
+                            >
+
+                                <i class="bi bi-arrow-counterclockwise"></i>
+
+                                Restore User
+
+                            </h5>
+
+
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"
+                            ></button>
+
+                        </div>
+
+
+
+                        <!-- Modal Body -->
+                        <div class="modal-body text-center">
+
+                            <i
+                                class="bi bi-person-check-fill text-success"
+                                style="font-size: 70px"
+                            ></i>
+
+
+                            <h4 class="mt-3">
+                                Restore User?
+                            </h4>
+
+
+                            <p class="text-muted">
+
+                                You are about to restore
+
+                                <strong>
+                                    {{ user.username }}
+                                </strong>
+
+                            </p>
+
+
+                            <div class="alert alert-info mt-3 mb-0">
+
+                                <i class="bi bi-info-circle-fill"></i>
+
+                                This user will be returned to the
+                                active users list.
+
+                            </div>
+
+                        </div>
+
+
+
+                        <!-- Modal Footer -->
+                        <div class="modal-footer">
+
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal"
+                            >
+
+                                <i class="bi bi-x-circle"></i>
+
+                                Cancel
+
+                            </button>
+
+
+                            <form
+                                method="POST"
+                                action="{% url 'restore_user' user.id %}"
+                            >
+
+                                {% csrf_token %}
+
+                                <button
+                                    type="submit"
+                                    class="btn btn-success"
+                                >
+
+                                    <i class="bi bi-arrow-counterclockwise"></i>
+
+                                    Restore
+
+                                </button>
+
+                            </form>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        {% endif %}
+
+    {% endfor %}
+
+{% endif %}
+
+
+
+<!-- ===================================================== -->
+<!-- BOOTSTRAP JS -->
+<!-- ===================================================== -->
+
+<script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+></script>
+
+
+<!-- Dashboard JS -->
+<script src="{% static 'js/dashboard.js' %}"></script>
+
+
+</body>
+
+</html>
