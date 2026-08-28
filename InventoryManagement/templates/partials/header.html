@@ -317,12 +317,21 @@
 
                             <div class="user-actions">
 
-                                <a
-                                    href="#"
-                                    class="btn btn-outline-secondary"
+                                <form
+                                    method="POST"
+                                    action="{% url 'login' %}"
                                 >
-                                    Profile
-                                </a>
+
+                                    {% csrf_token %}
+
+                                    <button
+                                        type="submit"
+                                        class="btn btn-outline-primary"
+                                    >
+                                        Login
+                                    </button>
+
+                                </form>
 
 
                                 <form
