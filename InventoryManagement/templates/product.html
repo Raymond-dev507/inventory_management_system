@@ -1,133 +1,627 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>Add Product</title>
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-          rel="stylesheet">
+    <link
+        href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
+        rel="stylesheet"
+    >
 
-    <link rel="stylesheet"
-          href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css"
+    >
 
     <style>
-        body{
-            background:#f5f7fa;
+
+        /* =====================================================
+           GLOBAL
+        ===================================================== */
+
+        * {
+            box-sizing: border-box;
         }
 
-        .card{
-            border:none;
-            border-radius:18px;
-            overflow:hidden;
+        body {
+            margin: 0;
+            background: #f5f7fa;
+            color: #212529;
+            font-family: Arial, Helvetica, sans-serif;
         }
 
-        .card-header{
-            padding:20px;
+
+        /* =====================================================
+           PAGE
+        ===================================================== */
+
+        .product-page {
+            width: 100%;
+            padding: 45px 20px;
         }
+
+        .product-wrapper {
+            width: 100%;
+            max-width: 850px;
+            margin: 0 auto;
+        }
+
+
+        /* =====================================================
+           CARD
+        ===================================================== */
+
+        .product-card {
+            width: 100%;
+            background: #ffffff;
+            border: none;
+            border-radius: 18px;
+            overflow: hidden;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, 0.08);
+        }
+
+
+        /* =====================================================
+           CARD HEADER
+        ===================================================== */
+
+        .product-card-header {
+            display: flex;
+            align-items: center;
+
+            min-height: 78px;
+
+            padding: 18px 25px;
+
+            background: #0d6efd;
+            color: #ffffff;
+        }
+
+        .product-card-header h3 {
+            margin: 0;
+
+            display: flex;
+            align-items: center;
+
+            font-size: 23px;
+            font-weight: 700;
+
+            line-height: 1.2;
+        }
+
+        .product-card-header i {
+            font-size: 24px;
+        }
+
+
+        /* =====================================================
+           CARD BODY
+        ===================================================== */
+
+        .product-card-body {
+            padding: 30px;
+        }
+
+
+        /* =====================================================
+           FORM GROUP
+        ===================================================== */
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-label {
+            display: block;
+
+            margin-bottom: 7px;
+
+            color: #343a40;
+
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           INPUTS
+        ===================================================== */
 
         .form-control,
-        .form-select{
-            height:50px;
-            border-radius:12px;
+        .form-select {
+            width: 100%;
+            height: 50px;
+
+            border: 1px solid #ced4da;
+            border-radius: 10px;
+
+            padding: 0 14px;
+
+            font-size: 15px;
+
+            background: #ffffff;
+
+            transition:
+                border-color 0.2s ease,
+                box-shadow 0.2s ease;
         }
 
-        textarea.form-control{
-            height:120px;
-            resize:none;
+        .form-control:focus,
+        .form-select:focus {
+            border-color: #0d6efd;
+
+            box-shadow:
+                0 0 0 3px rgba(13, 110, 253, 0.12);
+
+            outline: none;
         }
 
-        .btn{
-            border-radius:12px;
-            height:50px;
-            font-weight:600;
+
+        /* =====================================================
+           INPUT GROUP
+        ===================================================== */
+
+        .input-group {
+            width: 100%;
         }
 
-        .input-group-text{
-            border-radius:12px 0 0 12px;
+        .input-group-text {
+            min-width: 48px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: #f8f9fa;
+
+            border: 1px solid #ced4da;
+
+            border-radius: 10px 0 0 10px;
+
+            color: #495057;
+
+            font-size: 16px;
         }
 
-        .page-title{
-            font-weight:700;
-            color:#2c3e50;
+        .input-group .form-control {
+            border-radius: 0 10px 10px 0;
         }
+
+
+        /* =====================================================
+           TEXTAREA
+        ===================================================== */
+
+        textarea.form-control {
+            height: 120px;
+
+            padding: 13px 14px;
+
+            resize: vertical;
+        }
+
+
+        /* =====================================================
+           BUTTONS
+        ===================================================== */
+        .product-actions .btn,
+        .view-products .btn {
+        display: inline-flex;
+        align-items: center;
+       justify-content: center;
+        }
+        .product-actions {
+            display: flex;
+
+            align-items: center;
+            justify-content: space-between;
+
+            gap: 15px;
+
+            margin-top: 10px;
+        }
+
+        .product-actions .btn {
+            min-height: 50px;
+
+            border-radius: 10px;
+
+            font-weight: 600;
+
+            padding: 0 22px;
+
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            min-width: 180px;
+        }
+
+
+        /* =====================================================
+           VIEW ALL PRODUCTS
+        ===================================================== */
+
+        .view-products {
+            margin-top: 25px;
+            padding-top: 25px;
+
+            border-top: 1px solid #e9ecef;
+
+            text-align: center;
+        }
+
+        .view-products .btn {
+            min-height: 48px;
+
+            border-radius: 10px;
+
+            padding: 0 25px;
+
+            font-weight: 600;
+        }
+
+
+        /* =====================================================
+           ALERTS
+        ===================================================== */
+
+        .alert {
+            border-radius: 10px;
+
+            margin-bottom: 20px;
+        }
+
+
+        /* =====================================================
+           TABLET
+        ===================================================== */
+
+        @media (max-width: 991.98px) {
+
+            .product-page {
+                padding: 30px 18px;
+            }
+
+            .product-card-body {
+                padding: 25px;
+            }
+
+            .product-card-header {
+                padding: 18px 22px;
+            }
+
+            .product-card-header h3 {
+                font-size: 21px;
+            }
+
+        }
+
+
+        /* =====================================================
+           MOBILE
+        ===================================================== */
+
+        @media (max-width: 767.98px) {
+
+            .product-page {
+                padding: 15px 10px 25px;
+            }
+
+            .product-wrapper {
+                max-width: 100%;
+            }
+
+            .product-card {
+                border-radius: 13px;
+
+                box-shadow:
+                    0 4px 18px rgba(0, 0, 0, 0.07);
+            }
+
+
+            /* Header */
+
+            .product-card-header {
+                min-height: 62px;
+
+                padding: 15px 17px;
+            }
+
+            .product-card-header h3 {
+                font-size: 18px;
+            }
+
+            .product-card-header i {
+                font-size: 20px;
+                margin-right: 7px !important;
+            }
+
+
+            /* Body */
+
+            .product-card-body {
+                padding: 20px 17px;
+            }
+
+
+            /* Form */
+
+            .form-group {
+                margin-bottom: 17px;
+            }
+
+            .form-label {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+
+
+            /* Inputs */
+
+            .form-control,
+            .form-select {
+                height: 46px;
+
+                border-radius: 9px;
+
+                font-size: 14px;
+            }
+
+            .input-group-text {
+                min-width: 43px;
+
+                font-size: 15px;
+
+                border-radius: 9px 0 0 9px;
+            }
+
+            .input-group .form-control {
+                border-radius: 0 9px 9px 0;
+            }
+
+
+            /* Textarea */
+
+            textarea.form-control {
+                height: 105px;
+
+                padding-top: 11px;
+            }
+
+
+            /* Buttons */
+
+            .product-actions {
+                flex-direction: column;
+
+                align-items: stretch;
+
+                gap: 10px;
+
+                margin-top: 5px;
+            }
+
+            .product-actions .btn {
+                width: 100%;
+
+                min-height: 47px;
+
+                padding: 0 15px;
+            }
+
+            .btn-primary {
+                min-width: 0;
+            }
+
+
+            /* View products */
+
+            .view-products {
+                margin-top: 20px;
+                padding-top: 20px;
+            }
+
+            .view-products .btn {
+                width: 100%;
+                min-height: 46px;
+            }
+
+        }
+
+
+        /* =====================================================
+           VERY SMALL PHONES
+        ===================================================== */
+
+        @media (max-width: 400px) {
+
+            .product-page {
+                padding: 10px 7px 20px;
+            }
+
+            .product-card {
+                border-radius: 11px;
+            }
+
+            .product-card-header {
+                padding: 14px;
+            }
+
+            .product-card-header h3 {
+                font-size: 17px;
+            }
+
+            .product-card-header i {
+                font-size: 18px;
+            }
+
+            .product-card-body {
+                padding: 17px 13px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-label {
+                font-size: 12px;
+            }
+
+            .form-control,
+            .form-select {
+                height: 44px;
+
+                font-size: 13px;
+            }
+
+            .input-group-text {
+                min-width: 40px;
+                font-size: 14px;
+            }
+
+            textarea.form-control {
+                height: 100px;
+            }
+
+            .product-actions .btn {
+                min-height: 45px;
+
+                font-size: 13px;
+            }
+
+            .view-products .btn {
+                min-height: 44px;
+
+                font-size: 13px;
+            }
+
+        }
+
     </style>
 
 </head>
+
 <body>
 
-<div class="container py-5">
+<div class="product-page">
 
-    <div class="row justify-content-center">
+    <div class="product-wrapper">
 
-        <div class="col-lg-8">
+        <div class="product-card">
 
-            <div class="card shadow-lg">
 
-                <div class="card-header bg-primary text-white">
+            <!-- =================================================
+                 HEADER
+            ================================================== -->
 
-                    <h3 class="mb-0">
-                        <i class="bi bi-box-seam-fill me-2"></i>
-                        Add New Product
-                    </h3>
+            <div class="product-card-header">
 
-                </div>
+                <h3>
+                    <i class="bi bi-box-seam-fill me-2"></i>
+                    Add New Product
+                </h3>
 
-                <div class="card-body p-4">
+            </div>
 
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }}">
-                                {{ message }}
-                            </div>
-                        {% endfor %}
-                    {% endif %}
 
-                    <form action="{% url 'product' %}" method="POST">
+            <!-- =================================================
+                 BODY
+            ================================================== -->
 
-                        {% csrf_token %}
+            <div class="product-card-body">
 
-                        <div class="row">
 
-                            <div class="col-md-6 mb-3">
+                <!-- Messages -->
 
-                                <label class="form-label fw-semibold">
+                {% if messages %}
+
+                    {% for message in messages %}
+
+                        <div class="alert alert-{{ message.tags }}">
+                            {{ message }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+
+                <!-- FORM -->
+
+                <form action="{% url 'product' %}" method="POST">
+
+                    {% csrf_token %}
+
+
+                    <!-- Category / Supplier -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
                                     Category
                                 </label>
 
-                                <select name="category"
-                                        class="form-select"
-                                        required>
+                                <select
+                                    name="category"
+                                    class="form-select"
+                                    required
+                                >
 
-                                    <option value="">Select Category</option>
+                                    <option value="">
+                                        Select Category
+                                    </option>
 
                                     {% for item in category %}
+
                                         <option value="{{ item.id }}">
                                             {{ item.name }}
                                         </option>
+
                                     {% endfor %}
 
                                 </select>
 
                             </div>
 
-                            <div class="col-md-6 mb-3">
+                        </div>
 
-                                <label class="form-label fw-semibold">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
                                     Supplier
                                 </label>
 
-                                <select name="supplier"
-                                        class="form-select"
-                                        required>
+                                <select
+                                    name="supplier"
+                                    class="form-select"
+                                    required
+                                >
 
-                                    <option value="">Select Supplier</option>
+                                    <option value="">
+                                        Select Supplier
+                                    </option>
 
                                     {% for item in supplier %}
+
                                         <option value="{{ item.id }}">
                                             {{ item.name }}
                                         </option>
+
                                     {% endfor %}
 
                                 </select>
@@ -136,91 +630,88 @@
 
                         </div>
 
-
-                        <div class="mb-3">
-
-                            <label class="form-label fw-semibold">
-                                Product Name
-                            </label>
-
-                            <div class="input-group">
-
-                                <span class="input-group-text">
-                                    <i class="bi bi-box"></i>
-                                </span>
-
-                                <input type="text"
-                                       name="name"
-                                       class="form-control"
-                                       placeholder="Enter product name"
-                                       required>
-
-                            </div>
-
-                        </div>
+                    </div>
 
 
-                        <div class="mb-3">
+                    <!-- Product Name -->
 
-                            <label class="form-label fw-semibold">
-                                SKU
-                            </label>
+                    <div class="form-group">
 
-                            <div class="input-group">
+                        <label class="form-label">
+                            Product Name
+                        </label>
 
-                                <span class="input-group-text">
-                                    <i class="bi bi-upc-scan"></i>
-                                </span>
+                        <div class="input-group">
 
-                                <input type="text"
-                                       name="sku"
-                                       class="form-control"
-                                       placeholder="Product SKU"
-                                       required>
+                            <span class="input-group-text">
+                                <i class="bi bi-box"></i>
+                            </span>
 
-                            </div>
+                            <input
+                                type="text"
+                                name="name"
+                                class="form-control"
+                                placeholder="Enter product name"
+                                required
+                            >
 
                         </div>
 
+                    </div>
 
-                        <div class="row">
 
-                            <div class="col-md-6 mb-3">
+                    <!-- SKU -->
 
-                                <label class="form-label fw-semibold">
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            SKU
+                        </label>
+
+                        <div class="input-group">
+
+                            <span class="input-group-text">
+                                <i class="bi bi-upc-scan"></i>
+                            </span>
+
+                            <input
+                                type="text"
+                                name="sku"
+                                class="form-control"
+                                placeholder="Product SKU"
+                                required
+                            >
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Prices -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
                                     Cost Price
                                 </label>
 
                                 <div class="input-group">
 
-                                    <span class="input-group-text">{{ currency_symbol }}</span>
+                                    <span class="input-group-text">
+                                        {{ currency_symbol }}
+                                    </span>
 
-                                    <input type="number"
-                                           step="0.01"
-                                           name="cost_price"
-                                           class="form-control"
-                                           required>
-
-                                </div>
-
-                            </div>
-
-
-                            <div class="col-md-6 mb-3">
-
-                                <label class="form-label fw-semibold">
-                                    Selling Price
-                                </label>
-
-                                <div class="input-group">
-
-                                    <span class="input-group-text">{{ currency_symbol }}</span>
-
-                                    <input type="number"
-                                           step="0.01"
-                                           name="selling_price"
-                                           class="form-control"
-                                           required>
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        name="cost_price"
+                                        class="form-control"
+                                        required
+                                    >
 
                                 </div>
 
@@ -229,11 +720,46 @@
                         </div>
 
 
-                        <div class="row">
+                        <div class="col-md-6">
 
-                            <div class="col-md-6 mb-3">
+                            <div class="form-group">
 
-                                <label class="form-label fw-semibold">
+                                <label class="form-label">
+                                    Selling Price
+                                </label>
+
+                                <div class="input-group">
+
+                                    <span class="input-group-text">
+                                        {{ currency_symbol }}
+                                    </span>
+
+                                    <input
+                                        type="number"
+                                        step="0.01"
+                                        name="selling_price"
+                                        class="form-control"
+                                        required
+                                    >
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- Quantity -->
+
+                    <div class="row">
+
+                        <div class="col-md-6">
+
+                            <div class="form-group">
+
+                                <label class="form-label">
                                     Quantity
                                 </label>
 
@@ -243,11 +769,13 @@
                                         <i class="bi bi-123"></i>
                                     </span>
 
-                                    <input type="number"
-                                           name="quantity"
-                                           class="form-control"
-                                           min="0"
-                                           required>
+                                    <input
+                                        type="number"
+                                        name="quantity"
+                                        class="form-control"
+                                        min="0"
+                                        required
+                                    >
 
                                 </div>
 
@@ -255,50 +783,74 @@
 
                         </div>
 
-
-                        <div class="mb-4">
-
-                            <label class="form-label fw-semibold">
-                                Description
-                            </label>
-
-                            <textarea name="description"
-                                      class="form-control"
-                                      placeholder="Write a short description (optional)"></textarea>
-
-                        </div>
-
-
-                        <div class="d-flex justify-content-between">
-
-                            <a href="{% url 'dashboard' %}"
-                               class="btn btn-outline-secondary px-4">
-
-                                <i class="bi bi-arrow-left"></i>
-                                Back
-
-                            </a>
-
-                            <button class="btn btn-primary px-5">
-
-                                <i class="bi bi-check-circle-fill me-2"></i>
-
-                                Save Product
-
-                            </button>
-
-                        </div>
-
-                    </form>
-                     <hr>
-
-                    <div class="text-center">
-                        <a href="{% url 'all_product' %}" class="btn btn-outline-primary">
-                            View All Products
-                        </a>
                     </div>
 
+
+                    <!-- Description -->
+
+                    <div class="form-group">
+
+                        <label class="form-label">
+                            Description
+                        </label>
+
+                        <textarea
+                            name="description"
+                            class="form-control"
+                            placeholder="Write a short description (optional)"
+                        ></textarea>
+
+                    </div>
+
+
+                    <!-- Actions -->
+
+                    <div class="product-actions">
+
+                        <a
+                            href="{% url 'dashboard' %}"
+                            class="btn btn-outline-secondary"
+                        >
+
+                            <i class="bi bi-arrow-left me-2"></i>
+                            Back
+
+                        </a>
+
+
+                        <button
+                            type="submit"
+                            class="btn btn-primary"
+                        >
+
+                            <i class="bi bi-check-circle-fill me-2"></i>
+
+                            Save Product
+
+                        </button>
+
+                    </div>
+
+                </form>
+
+
+                <!-- View Products -->
+
+                <div class="view-products">
+
+                    <a
+                        href="{% url 'all_product' %}"
+                        class="btn btn-outline-primary"
+                    >
+
+                        <i class="bi bi-box-seam me-2"></i>
+
+                        View All Products
+
+                    </a>
+
                 </div>
+
 
             </div>
 
@@ -310,5 +862,3 @@
 
 </body>
 </html>
-
-

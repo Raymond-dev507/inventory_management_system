@@ -36,6 +36,7 @@ DEBUG = True
 ALLOWED_HOSTS = [
     "localhost",
     "127.0.0.1",
+    "10.44.212.167",
     "growing-structure-muppet.ngrok-free.dev",
 ]
 

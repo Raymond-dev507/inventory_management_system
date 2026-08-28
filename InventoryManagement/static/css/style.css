@@ -1,4 +1,3 @@
-
 /* =========================================================
    GLOBAL RESET
 ========================================================= */
@@ -544,7 +543,7 @@ img {
 .user-button {
     display: flex;
     align-items: center;
-    gap:20px;
+    gap: 10px;
     min-height: 46px;
 
     padding: 5px 12px 5px 7px;
@@ -584,6 +583,16 @@ img {
     border-radius: 50%;
 
     margin-right: 8px;
+}
+
+
+/* The chevron already gets its spacing from .user-button's
+   flex `gap` — Bootstrap's `ms-2` utility class on the icon
+   in the HTML was adding an extra 8px on top of that gap,
+   pushing it too far right at every screen size. */
+
+.user-button .bi-chevron-down {
+    margin-left: 0 !important;
 }
 
 
@@ -792,21 +801,21 @@ img {
 
 /* Card colors */
 
-.dashboard-content .row > .col-lg-3:nth-child(1) .summary-card {
+.dashboard-content .row > *:nth-child(1) .summary-card {
     background: #0d6efd;
 }
 
-.dashboard-content .row > .col-lg-3:nth-child(2) .summary-card {
+.dashboard-content .row > *:nth-child(2) .summary-card {
     background: #198754;
 }
 
-.dashboard-content .row > .col-lg-3:nth-child(3) .summary-card {
+.dashboard-content .row > *:nth-child(3) .summary-card {
     background: #ffc107;
 
     color: #212529;
 }
 
-.dashboard-content .row > .col-lg-3:nth-child(4) .summary-card {
+.dashboard-content .row > *:nth-child(4) .summary-card {
     background: #dc3545;
 }
 
@@ -891,7 +900,7 @@ img {
 
 /* Yellow card */
 
-.dashboard-content .row > .col-lg-3:nth-child(3)
+.dashboard-content .row > *:nth-child(3)
 .summary-card-link {
     border-top-color: rgba(0, 0, 0, 0.12);
 }
@@ -1411,7 +1420,7 @@ body.sidebar-collapse .main-content {
 [data-bs-theme="dark"] .user-button {
     background: #2b3035;
 
-    border-color: #495057;
+    border-color: #6c757d;
 
     color: #ffffff;
 }
@@ -1593,8 +1602,150 @@ body.sidebar-collapse .main-content {
 }
 
 
+/* Notification dropdown — text needs to flip to light only
+   when the dropdown background is actually dark; the base
+   rules below are for light mode's white background. */
+
+[data-bs-theme="dark"] .notif-dropdown-title,
+[data-bs-theme="dark"] .notif-empty,
+[data-bs-theme="dark"] .notif-item small {
+    color: rgba(255, 255, 255, 0.55);
+}
+
+
+/* ===================================================== */
+/* NOTIFICATION BELL */
+/* ===================================================== */
+
+.notif-menu {
+    position: relative;
+}
+
+.notif-button {
+    position: relative;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-size: 1.15rem;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.15s ease;
+}
+
+.notif-button:hover {
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.notif-badge {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    background: #dc3545;
+    color: #fff;
+    font-size: 0.65rem;
+    font-weight: 700;
+    line-height: 1;
+    padding: 3px 5px;
+    border-radius: 999px;
+    min-width: 16px;
+    text-align: center;
+}
+
+.notif-dropdown {
+    width: 320px;
+    max-height: 420px;
+    overflow-y: auto;
+    padding: 0.4rem 0;
+}
+
+.notif-dropdown-title {
+    padding: 0.5rem 1rem;
+    font-weight: 600;
+    font-size: 0.85rem;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+}
+
+.notif-empty {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 1rem;
+    color: #6c757d;
+    font-size: 0.9rem;
+}
+
+.notif-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.65rem;
+    padding: 0.6rem 1rem;
+    text-decoration: none;
+    color: inherit;
+    transition: background 0.15s ease;
+}
+
+.notif-item:hover {
+    background: rgba(255, 255, 255, 0.06);
+    color: inherit;
+}
+
+.notif-item i {
+    font-size: 1rem;
+    margin-top: 2px;
+}
+
+.notif-item div {
+    display: flex;
+    flex-direction: column;
+    line-height: 1.3;
+}
+
+.notif-item strong {
+    font-size: 0.9rem;
+}
+
+.notif-item small {
+    font-size: 0.78rem;
+    color: #6c757d;
+}
+
+.notif-item-danger i {
+    color: #dc3545;
+}
+
+.notif-item-warning i {
+    color: #ffc107;
+}
+
+.notif-view-all {
+    display: block;
+    text-align: center;
+    padding: 0.6rem 1rem;
+    font-size: 0.85rem;
+    color: var(--accent, #818cf8);
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    margin-top: 0.3rem;
+    text-decoration: none;
+}
+
+.notif-view-all:hover {
+    color: var(--accent-hover, #6366f1);
+}
+
+
 /* =========================================================
-   LARGE SCREENS
+   RESPONSIVE — all breakpoints, one pass each, no duplicates
+========================================================= */
+
+
+/* =========================================================
+   LARGE SCREENS (≤1200px)
 ========================================================= */
 
 @media (max-width: 1200px) {
@@ -1630,7 +1781,7 @@ body.sidebar-collapse .main-content {
 
 
 /* =========================================================
-   TABLET
+   TABLET (≤991.98px)
 ========================================================= */
 
 @media (max-width: 991.98px) {
@@ -1715,7 +1866,7 @@ body.sidebar-collapse .main-content {
 
 
 /* =========================================================
-   SMALL TABLET
+   SMALL TABLET (≤850px)
 ========================================================= */
 
 @media (max-width: 850px) {
@@ -1738,6 +1889,11 @@ body.sidebar-collapse .main-content {
         width: 280px;
 
         flex-shrink: 0;
+
+        /* Reset the desktop-only centering trick — it was
+           shoving the search box 20px right on every mobile
+           layout, eating into the space meant for the icons. */
+        transform: none;
     }
 
     .header-right {
@@ -1755,11 +1911,7 @@ body.sidebar-collapse .main-content {
 
 
 /* =========================================================
-   MOBILE
-========================================================= */
-
-/* =========================================================
-   MOBILE
+   MOBILE (≤650px)
 ========================================================= */
 
 @media (max-width: 650px) {
@@ -1794,29 +1946,20 @@ body.sidebar-collapse .main-content {
     .menu-button {
         width: 38px;
         height: 38px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         padding: 0;
-
         border: none;
         background: transparent;
-
         color: #6c757d;
-
         font-size: 20px;
-
         cursor: pointer;
     }
 
     .menu-button:hover {
         color: #0d6efd;
     }
-
-
-    /* Hide long website title on mobile */
 
     .site-title {
         display: none;
@@ -1827,13 +1970,10 @@ body.sidebar-collapse .main-content {
 
     .global-search {
         display: block;
-
-        width: 145px;
-
-        margin-left: auto;
-        margin-right: 0;
-
-        flex-shrink: 1;
+        flex: 1 1 0;
+        min-width: 90px;
+        max-width: 240px;
+        margin: 0;
     }
 
     .global-search form {
@@ -1844,35 +1984,23 @@ body.sidebar-collapse .main-content {
     .search-box {
         width: 100%;
         height: 38px;
-
         border-radius: 8px;
-
         display: flex;
         align-items: center;
     }
 
-    /* KEEP search icon visible */
-
     .search-icon {
         display: block;
-
         position: absolute;
-
         left: 10px;
-
         font-size: 15px;
     }
 
-    /* KEEP search input visible */
-
     .search-box input {
         display: block;
-
         width: 100%;
         height: 100%;
-
         padding: 0 38px 0 32px;
-
         font-size: 12px;
     }
 
@@ -1880,79 +2008,88 @@ body.sidebar-collapse .main-content {
         font-size: 11px;
     }
 
-
-    /* Small search button */
-
     .search-button {
         position: absolute;
-
         right: 3px;
-
         width: 30px;
         height: 30px;
-
         border-radius: 6px;
-
         font-size: 13px;
     }
 
 
-    /* ---------------- RIGHT SIDE ---------------- */
+    /* ---------------- RIGHT SIDE (icons) ---------------- */
+    /* Fix: a real, breathable gap here — this used to be an
+       unscoped 3px rule applying at ALL screen widths, which
+       is what was squashing bell / theme / avatar together. */
 
     .header-right {
         display: flex;
         align-items: center;
-
-        gap: 3px;
-
+        gap: 10px;
         flex-shrink: 0;
     }
-
-
-    /* Theme button */
 
     .theme-button {
         width: 34px;
         height: 34px;
-
         display: flex;
         align-items: center;
         justify-content: center;
-
         padding: 0;
-
         border: none;
         background: transparent;
-
         font-size: 16px;
     }
 
-
-    /* User button */
+    .notif-button {
+        width: 34px;
+        height: 34px;
+        font-size: 1rem;
+    }
 
     .user-button {
         height: 38px;
-
         display: flex;
         align-items: center;
-
+        gap: 6px;
         padding: 3px 7px;
-
         border-radius: 7px;
-
         font-size: 13px;
     }
 
     .user-button .user-image {
         width: 30px;
         height: 30px;
-
         margin-right: 0;
     }
 
     .user-button .bi-chevron-down {
         font-size: 11px;
-        margin-left: 4px !important;
+        margin-left: 0 !important;
+    }
+
+
+    /* Dropdowns positioned relative to the viewport, not the
+       button. Bootstrap's dropdown-menu-end aligns the menu's
+       RIGHT edge to the button's right edge and extends left —
+       fine when the button sits at the edge of the header, but
+       the notif bell doesn't (theme + profile buttons sit to
+       its right), so the menu ran out of room and got clipped
+       off the left side of the screen. Pinning position/width
+       here (with !important, since Bootstrap/Popper sets these
+       inline) keeps every header dropdown fully on-screen. */
+
+    .notif-dropdown,
+    .user-dropdown {
+        position: fixed !important;
+        top: 66px !important;
+        left: 10px !important;
+        right: 10px !important;
+        width: auto !important;
+        max-width: none !important;
+        transform: none !important;
+        max-height: calc(100vh - 90px);
     }
 
 
@@ -1960,7 +2097,6 @@ body.sidebar-collapse .main-content {
 
     .main-content {
         margin-left: 0;
-
         min-height: calc(100vh - 60px);
     }
 
@@ -1985,10 +2121,9 @@ body.sidebar-collapse .main-content {
 
     .summary-card {
         min-height: 145px;
-
         padding: 17px;
-
         border-radius: 9px;
+        margin-bottom: 15px;
     }
 
     .summary-card-content h3 {
@@ -2001,14 +2136,12 @@ body.sidebar-collapse .main-content {
 
     .summary-card-icon {
         font-size: 32px;
-
         top: 17px;
         right: 17px;
     }
 
     .summary-card-link {
         padding: 9px 17px;
-
         font-size: 12px;
     }
 
@@ -2017,6 +2150,8 @@ body.sidebar-collapse .main-content {
 
     .dashboard-card-header {
         padding: 15px;
+        flex-wrap: wrap;
+        row-gap: 10px;
     }
 
     .dashboard-card-header h3 {
@@ -2025,6 +2160,11 @@ body.sidebar-collapse .main-content {
 
     .dashboard-card-header small {
         font-size: 11px;
+    }
+
+    .dashboard-card-header .btn {
+        font-size: 13px;
+        padding: 6px 10px;
     }
 
     .dashboard-card-body {
@@ -2060,16 +2200,14 @@ body.sidebar-collapse .main-content {
     .table td,
     .table th {
         padding: 10px;
-
         font-size: 13px;
-
         white-space: nowrap;
     }
 }
 
 
 /* =========================================================
-   VERY SMALL PHONES
+   VERY SMALL PHONES (≤400px)
 ========================================================= */
 
 @media (max-width: 400px) {
@@ -2082,15 +2220,16 @@ body.sidebar-collapse .main-content {
     .menu-button {
         width: 34px;
         height: 34px;
-
         font-size: 18px;
     }
 
 
-    /* Smaller search */
+    /* Search flexes instead of using a fixed width, so it
+       fills whatever space is actually left over. */
 
     .global-search {
-        width: 120px;
+        min-width: 70px;
+        max-width: 160px;
     }
 
     .search-box {
@@ -2099,7 +2238,6 @@ body.sidebar-collapse .main-content {
 
     .search-box input {
         font-size: 11px;
-
         padding-left: 29px;
         padding-right: 34px;
     }
@@ -2116,25 +2254,37 @@ body.sidebar-collapse .main-content {
     .search-button {
         width: 28px;
         height: 28px;
-
         font-size: 12px;
     }
 
 
-    /* Theme */
+    /* Keep the theme toggle visible (don't hide it) — just
+       shrink everything a bit tighter so all three controls
+       still fit on a 375px-wide screen without crowding. */
+
+    .header-right {
+        gap: 6px;
+    }
 
     .theme-button {
         width: 30px;
         height: 30px;
-
         font-size: 14px;
     }
 
+    .notif-button {
+        width: 30px;
+        height: 30px;
+        font-size: 0.9rem;
+    }
 
-    /* User */
+    .notif-dropdown {
+        width: min(320px, calc(100vw - 24px));
+    }
 
     .user-button {
-        padding: 2px 4px;
+        gap: 4px;
+        padding: 2px 6px;
     }
 
     .user-button .user-image {
@@ -2143,7 +2293,20 @@ body.sidebar-collapse .main-content {
     }
 
 
-    /* Cards */
+    /* Page / content padding */
+
+    .page-header {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .dashboard-content {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+
+    /* Summary cards */
 
     .summary-card {
         min-height: 135px;
@@ -2162,344 +2325,12 @@ body.sidebar-collapse .main-content {
         font-size: 29px;
     }
 
-    .dashboard-content {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-}
-
-
-    /* Header right */
-
-    .header-right {
-        gap: 3px;
-    }
-
-    .theme-button {
-        width: 40px;
-        height: 40px;
-    }
-
-    .user-button {
-        min-height: 42px;
-
-        padding-right: 7px;
-    }
-
-    .user-image {
-        width: 32px;
-        height: 32px;
-
-        margin-right: 0;
-    }
-
-
-    /* Page */
-
-    .page-header {
-        padding: 20px 14px 12px;
-    }
-
-    .page-header h1 {
-        font-size: 26px;
-    }
-
-    .page-header .breadcrumb {
-        display: none;
-    }
-
-
-    /* Dashboard */
-
-    .dashboard-content {
-        padding: 0 14px 25px;
-    }
-
-
-    /* Summary cards */
-
-    .summary-card {
-        min-height: 175px;
-
-        margin-bottom: 15px;
-    }
-
-    .summary-card-content {
-        padding: 20px;
-    }
-
-    .summary-card-content h3 {
-        font-size: 36px;
-    }
-
-    .summary-card-content p {
-        font-size: 15px;
-    }
-
-    .summary-card-icon {
-        top: 32px;
-        right: 18px;
-
-        font-size: 40px;
-    }
-
-    .summary-card-link {
-        min-height: 48px;
-
-        padding: 0 20px;
-
-        font-size: 14px;
-    }
-
-
-    /* Dashboard cards */
-
-    .dashboard-card-header {
-        min-height: 90px;
-
-        padding: 16px;
-    }
-
-    .dashboard-card-header h3 {
-        font-size: 18px;
-    }
-
-    .dashboard-card-header small {
-        font-size: 12px;
-    }
-
-    .inventory-item {
-        padding: 13px 16px;
-
-        gap: 10px;
-    }
-
-    .inventory-item strong {
-        font-size: 14px;
-    }
-
-    .inventory-item small {
-        font-size: 12px;
-    }
-
-
-    /* Insights */
-
-    .insights-card {
-        flex-direction: column;
-
-        padding: 20px;
-    }
-
-    .insights-icon {
-        width: 45px;
-        height: 45px;
-
-        min-width: 45px;
-
-        font-size: 20px;
-    }
-
-
-    /* Table */
-
-    .table thead th,
-    .table tbody td {
-        padding: 10px;
-
-        font-size: 13px;
-    }
-}
-
-
-/* =========================================================
-   VERY SMALL PHONES
-========================================================= */
-
-@media (max-width: 400px) {
-
-    .user-button {
-        border: none;
-
-        padding: 4px;
-    }
-
-    .theme-button {
-        display: none;
-    }
-
-    .global-search {
-        width: 40px;
-    }
-
-    .search-box,
-    .search-button {
-        width: 40px;
-        height: 40px;
-    }
-
-    .page-header {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .dashboard-content {
-        padding-left: 10px;
-        padding-right: 10px;
-    }
-
-    .summary-card {
-        min-height: 155px;
-    }
-
-    .summary-card-content {
-        padding: 17px;
-    }
-
-    .summary-card-content h3 {
-        font-size: 30px;
-    }
-
-    .summary-card-icon {
-        font-size: 34px;
-
-        top: 25px;
-        right: 14px;
-    }
-
-    .summary-card-link {
-        padding: 0 17px;
-
-        font-size: 13px;
-    }
-}
-
-
-
-
-
-
-/* ===================================================== */
-/* NOTIFICATION BELL */
-/* ===================================================== */
-
-.notif-menu {
-    position: relative;
-}
-
-.notif-button {
-    position: relative;
-    background: transparent;
-    border: none;
-    color: inherit;
-    font-size: 1.15rem;
-    width: 40px;
-    height: 40px;
-    border-radius: 8px;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.15s ease;
-}
-
-.notif-button:hover {
-    background: rgba(255, 255, 255, 0.08);
-}
-
-.notif-badge {
-    position: absolute;
-    top: 4px;
-    right: 4px;
-    background: #dc3545;
-    color: #fff;
-    font-size: 0.65rem;
-    font-weight: 700;
-    line-height: 1;
-    padding: 3px 5px;
-    border-radius: 999px;
-    min-width: 16px;
-    text-align: center;
-}
-
-.notif-dropdown {
-    width: 320px;
-    max-height: 420px;
-    overflow-y: auto;
-    padding: 0.4rem 0;
-}
-
-.notif-dropdown-title {
-    padding: 0.5rem 1rem;
-    font-weight: 600;
-    font-size: 0.85rem;
-    color: rgba(255, 255, 255, 0.55);
-    text-transform: uppercase;
-    letter-spacing: 0.04em;
-}
-
-.notif-empty {
-    display: flex;
-    align-items: center;
-    gap: 0.6rem;
-    padding: 1rem;
-    color: rgba(255, 255, 255, 0.55);
-    font-size: 0.9rem;
-}
-
-.notif-item {
-    display: flex;
-    align-items: flex-start;
-    gap: 0.65rem;
-    padding: 0.6rem 1rem;
-    text-decoration: none;
-    color: inherit;
-    transition: background 0.15s ease;
-}
-
-.notif-item:hover {
-    background: rgba(255, 255, 255, 0.06);
-    color: inherit;
-}
-
-.notif-item i {
-    font-size: 1rem;
-    margin-top: 2px;
-}
-
-.notif-item div {
-    display: flex;
-    flex-direction: column;
-    line-height: 1.3;
-}
-
-.notif-item strong {
-    font-size: 0.9rem;
-}
-
-.notif-item small {
-    font-size: 0.78rem;
-    color: rgba(255, 255, 255, 0.55);
-}
-
-.notif-item-danger i {
-    color: #dc3545;
-}
-
-.notif-item-warning i {
-    color: #ffc107;
-}
-
-.notif-view-all {
-    display: block;
-    text-align: center;
-    padding: 0.6rem 1rem;
-    font-size: 0.85rem;
-    color: var(--accent, #818cf8);
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    margin-top: 0.3rem;
-    text-decoration: none;
-}
-
-.notif-view-all:hover {
-    color: var(--accent-hover, #6366f1);
+    /* No custom grid override needed here — the HTML already
+       uses col-lg-3 col-6 on the summary cards, so Bootstrap's
+       own grid gives 2-per-row on mobile and 4-per-row at
+       lg+ automatically. A generic [class*="col-"] override
+       here would also catch the Insights card, Recent Products
+       table, and Out of Stock / Low Stock cards further down
+       the page (col-12 / col-lg-6), forcing them to the wrong
+       width too. */
 }
