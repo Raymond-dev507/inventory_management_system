@@ -519,6 +519,14 @@ def update_product(request,id):
 def remove_product(request,id):
     product = get_object_or_404(Product, id=id)
     product.delete()
+    ActivityLog.objects.create(
+        user=request.user,
+        action="DELETE PRODUCT",
+        description=(
+            f"Completed Delete Product #{product.id} "
+            f"Name of the product{product.name}"
+        )
+    )
     messages.success(request, "Product deleted successfully.")
     return redirect("all_product")
 

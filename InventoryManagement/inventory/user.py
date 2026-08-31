@@ -285,13 +285,7 @@ def settings_view(request):
 
     if request.method == "POST":
 
-        # --------------------------------------------------
-        # CAPTURE THE OLD VALUE BEFORE THE FORM OVERWRITES IT
-        #
-        # This is the only way to detect "it was just turned
-        # on" versus "it was already on" — once form.save()
-        # runs, the old value is gone.
-        # --------------------------------------------------
+
 
         was_auto_deduct_enabled = settings_obj.auto_deduct_stock
 
