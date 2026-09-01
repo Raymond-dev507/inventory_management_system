@@ -20,7 +20,7 @@ def send_notification_email(subject, message, recipient_email, recipient_name=""
 
         send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
             to=[{"email": recipient_email, "name": recipient_name}],
-            sender={"email": settings.EMAIL_ACCOUNT, "name": "SoftCode Company"},
+            sender={"email": settings.EMAIL_ACCOUNT, "name": "Stomachache Company"},
             subject=subject,
             text_content=message,
         )

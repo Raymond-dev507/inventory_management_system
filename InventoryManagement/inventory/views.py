@@ -379,7 +379,7 @@ Address: {address}
 Thank you for partnering with us.
 
 Best regards,
-SoftCode Company"""
+Stomachache Company"""
 
             send_notification_email(subject, message, email, name)
 
