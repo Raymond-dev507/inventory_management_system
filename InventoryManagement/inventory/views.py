@@ -11,15 +11,10 @@ from django.utils import timezone
 from django.db import transaction
 from django.core.mail import send_mail
 from django.contrib.auth.decorators import login_required,permission_required
-import socket
+
 # Create your views here.
 
-def test_email_connection(request):
-    try:
-        socket.create_connection(("smtp.gmail.com", 587), 10)
-        return HttpResponse("SUCCESS: Render can connect to Gmail SMTP")
-    except Exception as e:
-        return HttpResponse(f"FAILED: {type(e).__name__}: {e}")
+
 
 def dashboard(request):
     system_settings = SystemSettings.load()
