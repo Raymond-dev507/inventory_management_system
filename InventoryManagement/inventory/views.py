@@ -13,7 +13,7 @@ from .Telegram import send_telegram_message
 from .models import Category, Supplier, Product, StockIn, StockOut, Sale, SaleItem, ActivityLog, SystemSettings
 import sib_api_v3_sdk
 from sib_api_v3_sdk.rest import ApiException
-
+from .utils import send_notification_email
 # Create your views here.
 
 
@@ -366,7 +366,6 @@ def supplier(request):
 
         if email:
             subject = f"Welcome to Stomachache Company, {name}"
-
             message = f"""Hello {name},
 
 Welcome to Stomachache Company.
@@ -380,26 +379,9 @@ Address: {address}
 Thank you for partnering with us.
 
 Best regards,
-Stomachache Company"""
+SoftCode Company"""
 
-            configuration = sib_api_v3_sdk.Configuration()
-            configuration.api_key['api-key'] = settings.BREVO_API_KEY
-
-            api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
-                sib_api_v3_sdk.ApiClient(configuration)
-            )
-
-            send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
-                to=[{"email": email, "name": name}],
-                sender={"email": "lolyboy113@gmail.com", "name": "Stomachache Company"},
-                subject=subject,
-                text_content=message,
-            )
-
-            try:
-                api_instance.send_transac_email(send_smtp_email)
-            except ApiException as e:
-                print(f"Brevo API error: {e}")
+            send_notification_email(subject, message, email, name)
 
         return redirect("all_supplier")
 

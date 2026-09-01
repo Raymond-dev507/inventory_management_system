@@ -178,12 +178,17 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 LOGIN_REDIRECT_URL = 'dashboard'
 LOGIN_URL = 'login'
 
+EMAIL_ACCOUNT = os.environ.get('EMAIL_ACCOUNT')
+EMAIL_PASSWORD = os.environ.get('EMAIL_PASSWORD')
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
 
-
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
-EMAIL_HOST_USER = os.getenv("EMAIL_ACCOUNT")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
+# Render automatically sets this env var in production — used to detect environment
+IS_PRODUCTION = os.environ.get('RENDER') == 'true'
+if not IS_PRODUCTION:
+    EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+    EMAIL_HOST = 'smtp.gmail.com'
+    EMAIL_PORT = 587
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
+    EMAIL_HOST_USER = os.getenv("EMAIL_ACCOUNT")
+    EMAIL_HOST_PASSWORD = os.getenv("EMAIL_PASSWORD")
