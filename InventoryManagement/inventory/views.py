@@ -1,5 +1,5 @@
-from django.shortcuts import render, redirect,get_object_or_404
 
+from django.shortcuts import render, redirect,get_object_or_404,HttpResponse
 from .Telegram import send_telegram_message
 from .models import Category, Supplier, Product, StockIn, StockOut, Sale, SaleItem, ActivityLog, SystemSettings
 from django.contrib import messages
@@ -10,9 +10,16 @@ from datetime import timedelta
 from django.utils import timezone
 from django.db import transaction
 from django.core.mail import send_mail
-
 from django.contrib.auth.decorators import login_required,permission_required
+import socket
 # Create your views here.
+
+def test_email_connection(request):
+    try:
+        socket.create_connection(("smtp.gmail.com", 587), 10)
+        return HttpResponse("SUCCESS: Render can connect to Gmail SMTP")
+    except Exception as e:
+        return HttpResponse(f"FAILED: {type(e).__name__}: {e}")
 
 def dashboard(request):
     system_settings = SystemSettings.load()

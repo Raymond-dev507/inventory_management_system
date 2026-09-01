@@ -6,6 +6,7 @@ from . import ai_report
 from . import user
 from . import Telegram
 urlpatterns = [
+    path("test-email-connection/",views.test_email_connection),
     path("", views.dashboard, name="dashboard"),
     path('category',views.category,name='category'),
     path('all_categories',views.all_categories,name='all_categories'),
