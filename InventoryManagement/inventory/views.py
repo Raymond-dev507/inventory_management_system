@@ -1,16 +1,17 @@
-
-from django.shortcuts import render, redirect,get_object_or_404,HttpResponse
+from datetime import timedelta
+from django.conf import settings
+import resend
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required, permission_required
+from django.core.mail import send_mail
+from django.db import transaction
+from django.db.models import Sum, Q, Value
+from django.db.models.functions import Coalesce
+from django.shortcuts import render, redirect, get_object_or_404
+from django.utils import timezone
 from .Telegram import send_telegram_message
 from .models import Category, Supplier, Product, StockIn, StockOut, Sale, SaleItem, ActivityLog, SystemSettings
-from django.contrib import messages
-from django.conf import settings
-from django.db.models import Sum, Q,Value
-from django.db.models.functions import Coalesce
-from datetime import timedelta
-from django.utils import timezone
-from django.db import transaction
-from django.core.mail import send_mail
-from django.contrib.auth.decorators import login_required,permission_required
+
 
 # Create your views here.
 
@@ -381,14 +382,14 @@ def supplier(request):
         SoftCode Company
         """
 
-            send_mail(
-                subject,
-                message,
-                settings.EMAIL_HOST_USER,
-                [email],
-                fail_silently=False,
-            )
+            resend.api_key = settings.RESEND_API_KEY
 
+            resend.Emails.send({
+                "from": "onboarding@resend.dev",
+                "to": [email],
+                "subject": subject,
+                "text": message,
+            })
         return redirect("all_supplier")
 
     return render(request, "suplier.html")
