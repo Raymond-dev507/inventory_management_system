@@ -380,7 +380,7 @@ Address: {address}
 Thank you for partnering with us.
 
 Best regards,
-SoftCode Company"""
+Stomachache Company"""
 
             configuration = sib_api_v3_sdk.Configuration()
             configuration.api_key['api-key'] = settings.BREVO_API_KEY
@@ -391,7 +391,7 @@ SoftCode Company"""
 
             send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
                 to=[{"email": email, "name": name}],
-                sender={"email": "lolyboy113@gmail.com", "name": "SoftCode Company"},
+                sender={"email": "lolyboy113@gmail.com", "name": "Stomachache Company"},
                 subject=subject,
                 text_content=message,
             )
