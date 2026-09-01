@@ -11,7 +11,8 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.utils import timezone
 from .Telegram import send_telegram_message
 from .models import Category, Supplier, Product, StockIn, StockOut, Sale, SaleItem, ActivityLog, SystemSettings
-
+import sib_api_v3_sdk
+from sib_api_v3_sdk.rest import ApiException
 
 # Create your views here.
 
@@ -357,39 +358,49 @@ def update_category(request, id):
 def supplier(request):
     if request.method == "POST":
         name = request.POST.get("name")
-        phone= request.POST.get("phone")
-        email= request.POST.get("email")
+        phone = request.POST.get("phone")
+        email = request.POST.get("email")
         address = request.POST.get("address")
-        supplier = Supplier(name=name,phone=phone,email=email,address=address)
+        supplier = Supplier(name=name, phone=phone, email=email, address=address)
         supplier.save()
+
         if email:
             subject = f"Welcome to Stomachache Company, {name}"
 
-            message = f"""
-        Hello {name},
+            message = f"""Hello {name},
 
-        Welcome to Stomachache Company.
+Welcome to Stomachache Company.
 
-        Your supplier account has been successfully created.
+Your supplier account has been successfully created.
 
-        Supplier ID: {supplier.id}
-        Phone: {phone}
-        Address: {address}
+Supplier ID: {supplier.id}
+Phone: {phone}
+Address: {address}
 
-        Thank you for partnering with us.
+Thank you for partnering with us.
 
-        Best regards,
-        SoftCode Company
-        """
+Best regards,
+SoftCode Company"""
 
-            resend.api_key = settings.RESEND_API_KEY
+            configuration = sib_api_v3_sdk.Configuration()
+            configuration.api_key['api-key'] = settings.BREVO_API_KEY
 
-            resend.Emails.send({
-                "from": "onboarding@resend.dev",
-                "to": [email],
-                "subject": subject,
-                "text": message,
-            })
+            api_instance = sib_api_v3_sdk.TransactionalEmailsApi(
+                sib_api_v3_sdk.ApiClient(configuration)
+            )
+
+            send_smtp_email = sib_api_v3_sdk.SendSmtpEmail(
+                to=[{"email": email, "name": name}],
+                sender={"email": "lolyboy113@gmail.com", "name": "SoftCode Company"},
+                subject=subject,
+                text_content=message,
+            )
+
+            try:
+                api_instance.send_transac_email(send_smtp_email)
+            except ApiException as e:
+                print(f"Brevo API error: {e}")
+
         return redirect("all_supplier")
 
     return render(request, "suplier.html")

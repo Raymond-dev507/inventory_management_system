@@ -22,7 +22,7 @@ GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
 
 TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 TELEGRAM_CHAT_ID = os.getenv("TELEGRAM_CHAT_ID")
-
+BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
 RESEND_API_KEY = os.getenv("RESEND_API_KEY")
 
 # Quick-start development settings - unsuitable for production
